@@ -70,5 +70,37 @@ namespace CivilFX.TrafficV3
                 + 2f * b
             );
         }
+
+        // gets the point taking in to account constant speed. the default implementation approximates the length of the spline
+        // by walking it and calculating the distance between each node
+        public virtual Vector3 getPointOnPath(float t)
+        {
+            // we know exactly how far along the path we want to be from the passed in t
+            float targetDistance = pathLength * t;
+
+            // loop through all the values in our lookup table and find the two nodes our targetDistance falls between
+            // translate the values from the lookup table estimating the arc length between our known nodes from the lookup table
+            int nextSegmentIndex;
+            for (nextSegmentIndex = 0; nextSegmentIndex < segments.Count; nextSegmentIndex++) {
+                if (segments[nextSegmentIndex].distance >= targetDistance)
+                    break;
+            }
+
+            Segment nextSegment = segments[nextSegmentIndex];
+
+            if (nextSegmentIndex == 0) {
+                // t within first segment
+                t = (targetDistance / nextSegment.distance) * nextSegment.time;
+            } else {
+                // t within prev..next segment
+                Segment previousSegment = segments[nextSegmentIndex - 1];
+
+                float segmentTime = nextSegment.time - previousSegment.time;
+                float segmentLength = nextSegment.distance - previousSegment.distance;
+
+                t = previousSegment.time + ((targetDistance - previousSegment.distance) / segmentLength) * segmentTime;
+            }
+            return getPoint(t);
+        }
     }
 }
