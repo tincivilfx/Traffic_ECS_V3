@@ -8,10 +8,19 @@ using UnityEngine;
 
 namespace CivilFX.TrafficV3
 {
+    public enum Unit
+    {
+        Meters,
+        Feet
+    }
 
     public class TrafficPath : MonoBehaviour
     {
-        public float width = 5.0f;
+        public Unit unit = Unit.Meters;
+        public float widthPerLane = 5.0f;
+        [Tooltip("Width of all lanes; in meters")]
+        public float calculatedWidth = 5.0f;
+
         [Range(1, 10)]
         public int lanesCount = 1;
         public int splineResolution = 30;
@@ -61,7 +70,7 @@ namespace CivilFX.TrafficV3
                 centerEnd = splineBuilder.getPoint(t);
 
                 dir = math.normalize((float3)(centerEnd - centerStart));
-                left = Vector3.Cross(Vector3.up, dir) * path.width;
+                left = Vector3.Cross(Vector3.up, dir) * path.calculatedWidth;
                 right = -left;
 
                 //draw inner lines
@@ -93,7 +102,7 @@ namespace CivilFX.TrafficV3
             centerStart = splineBuilder.getPoint(0.01f);
             centerEnd = splineBuilder.getPoint(0.015f);
             dir = math.normalize((float3)(centerEnd - centerStart));
-            left = Vector3.Cross(Vector3.up, dir) * path.width;
+            left = Vector3.Cross(Vector3.up, dir) * path.calculatedWidth;
             right = -left;
             var leftStart = centerStart + left;
             var leftEnd = centerEnd + left;
@@ -108,7 +117,7 @@ namespace CivilFX.TrafficV3
                     centerStart = Vector3.Lerp(leftStart, rightStart, time);
                     centerEnd = Vector3.Lerp(leftEnd, rightEnd, time);
                     dir = math.normalize(centerEnd - centerStart);
-                    left = Vector3.Cross(Vector3.up, dir) * (path.width / (lanesCount * 2));
+                    left = Vector3.Cross(Vector3.up, dir) * (path.calculatedWidth / (lanesCount * 2));
                     right = -left;
                     Gizmos.DrawLine(centerStart + left, centerEnd);
                     Gizmos.DrawLine(centerStart + right, centerEnd);

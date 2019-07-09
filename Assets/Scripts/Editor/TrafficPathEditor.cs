@@ -11,7 +11,7 @@ namespace CivilFX.TrafficV3
         private TrafficPath _target;
         private SerializedObject so;
         private GUIStyle labelStyle;
-
+        private bool recalculateWidth;
         private void OnEnable()
         {
             _target = (TrafficPath)target;
@@ -43,13 +43,39 @@ namespace CivilFX.TrafficV3
                 EditorGUILayout.PropertyField(currentProp);
             }
 
-            //path width
-            currentProp = so.FindProperty("width");
+            //unit
+            currentProp = so.FindProperty("unit");
+            EditorGUI.BeginChangeCheck();
             EditorGUILayout.PropertyField(currentProp);
+            recalculateWidth |= EditorGUI.EndChangeCheck();
+
+            //path width
+            currentProp = so.FindProperty("widthPerLane");
+            EditorGUI.BeginChangeCheck();
+            EditorGUILayout.PropertyField(currentProp);
+            recalculateWidth |= EditorGUI.EndChangeCheck();
+
+            //calculated width
+            using (new EditorGUI.DisabledGroupScope(true)) {
+                currentProp = so.FindProperty("calculatedWidth");
+                if (recalculateWidth) {
+                    if (so.FindProperty("unit").enumValueIndex == 0) {
+                        //meters
+                        currentProp.floatValue = so.FindProperty("widthPerLane").floatValue * so.FindProperty("lanesCount").intValue;
+                    } else {
+                        //feet
+                        currentProp.floatValue = so.FindProperty("widthPerLane").floatValue / 3.2808f * so.FindProperty("lanesCount").intValue;
+                    }
+                    recalculateWidth = false;
+                }
+                EditorGUILayout.PropertyField(currentProp);
+            }
 
             //lanes count
             currentProp = so.FindProperty("lanesCount");
+            EditorGUI.BeginChangeCheck();
             EditorGUILayout.PropertyField(currentProp);
+            recalculateWidth |= EditorGUI.EndChangeCheck();
 
             //spline resolution
             currentProp = so.FindProperty("splineResolution");
