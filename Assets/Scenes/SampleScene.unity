@@ -135,7 +135,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 92ce60164acd91d499ca3424ef818ac7,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 76.7
+      value: 73.2
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 92ce60164acd91d499ca3424ef818ac7,
         type: 3}
@@ -145,17 +145,17 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 92ce60164acd91d499ca3424ef818ac7,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1747.95
+      value: -1739.5
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 92ce60164acd91d499ca3424ef818ac7,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 92ce60164acd91d499ca3424ef818ac7,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.67605084
+      value: -0.37689546
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 92ce60164acd91d499ca3424ef818ac7,
         type: 3}
@@ -165,7 +165,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 92ce60164acd91d499ca3424ef818ac7,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7368551
+      value: 0.92625576
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 92ce60164acd91d499ca3424ef818ac7,
         type: 3}
@@ -180,7 +180,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 92ce60164acd91d499ca3424ef818ac7,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -85.07201
+      value: -44.283
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 92ce60164acd91d499ca3424ef818ac7,
         type: 3}
@@ -594,13 +594,13 @@ MonoBehaviour:
   lanesCount: 2
   splineResolution: 150
   nodes:
-  - {x: 626.6193, y: 3.5168014e-17, z: -1511.235}
+  - {x: 147.89716, y: 3.5168014e-17, z: -1788.1348}
   - {x: 82.9574, y: 3.4364153e-17, z: -1744.5502}
-  - {x: -99.332886, y: 3.0011625e-17, z: -1459.0906}
-  - {x: 194.95844, y: 2.4211643e-17, z: -1087.0621}
-  - {x: 498.4372, y: 1.62559e-17, z: -815.15924}
-  - {x: 928.69336, y: 9.547596e-19, z: -1118.6931}
-  - {x: 896.40204, y: 5.946712e-18, z: -1244.9719}
+  - {x: -21.523842, y: 3.0011625e-17, z: -1590.4476}
+  - {x: 17.464901, y: 2.4211643e-17, z: -1482.0059}
+  - {x: 173.79984, y: 1.62559e-17, z: -1475.5}
+  - {x: 302.3789, y: 9.547596e-19, z: -1506.0972}
+  - {x: 336.04327, y: -1.434638e-17, z: -1538.1157}
 --- !u!4 &1532633759
 Transform:
   m_ObjectHideFlags: 0
@@ -644,10 +644,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a371fb8d55873c478e83bac7aca0cb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unit: 0
-  widthPerLane: 5
-  calculatedWidth: 5
-  lanesCount: 2
+  unit: 1
+  widthPerLane: 12
+  calculatedWidth: 25.60351
+  lanesCount: 7
   splineResolution: 150
   nodes:
   - {x: 1417.187, y: 3.871668e-17, z: -2161.6465}

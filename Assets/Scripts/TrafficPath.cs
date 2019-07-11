@@ -6,6 +6,7 @@ using UnityEditor;
 #endif
 using UnityEngine;
 
+
 namespace CivilFX.TrafficV3
 {
     public enum Unit
@@ -40,6 +41,15 @@ namespace CivilFX.TrafficV3
                 splineBuilder = new SplineBuilder(this);
             }
             return splineBuilder;
+        }
+
+
+        //Just for visualization for now
+        //function to splice the path into different box segment
+        private void Awake()
+        {
+            var d = -1e-6;
+            Debug.Log(d.ToString("#########0.##########"));
         }
 
 #if UNITY_EDITOR
@@ -127,6 +137,11 @@ namespace CivilFX.TrafficV3
                 }              
                 time += seg;
             }
+
+
+
+
+
 
             /*
             //draw rough lanes

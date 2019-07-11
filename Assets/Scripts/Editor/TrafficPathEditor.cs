@@ -153,6 +153,31 @@ namespace CivilFX.TrafficV3
                 */
             }
 
+            //short cut to delete node
+            if (e.type == EventType.KeyUp && e.keyCode == KeyCode.X && e.control) {
+                int index = LocateNearestNode(_target.nodes, e.mousePosition);
+                Undo.RecordObject(target, "DeleteNode");
+                _target.nodes.RemoveAt(index);
+            }
+
+            //move scene camera to begin of node
+            if (e.control && e.type == EventType.KeyDown && e.keyCode == KeyCode.F) {
+                MoveSceneView(_target.nodes[0]);
+            }
+
+            //move scene camera to selected node
+            if (e.type == EventType.KeyDown && e.keyCode == KeyCode.D) {
+                var index = LocateNearestNode(_target.nodes, e.mousePosition);
+                if (index > 0) {
+
+                    Vector3 pos = Vector3.Lerp(_target.nodes[index - 1], _target.nodes[index], 0.5f);
+                    MoveSceneView(pos);
+                }
+                /*
+                Vector3 pos = _target.nodes[(LocateNearestNode(_target.nodes, e.mousePosition))];
+                MoveSceneView(pos);
+                */
+            }
             //double click to add
             if (e.type == EventType.MouseDown && e.clickCount > 1)
             {
@@ -279,7 +304,20 @@ namespace CivilFX.TrafficV3
             }
             return index;
         }
-
+        private void MoveSceneView(Vector3 pos)
+        {
+            var view = SceneView.currentDrawingSceneView;
+            if (view != null) {
+                var target = new GameObject();
+                var y = Camera.current.transform.position.y;
+                var rot = Camera.current.transform.rotation;
+                target.transform.rotation = rot;
+                target.transform.position = pos + new Vector3(0, 50, 0);
+                //target.transform.LookAt(pos);
+                view.AlignViewToObject(target.transform);
+                GameObject.DestroyImmediate(target);
+            }
+        }
     }
 
 
