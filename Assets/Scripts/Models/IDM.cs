@@ -21,7 +21,7 @@ namespace CivilFX.TrafficV3
         public override float CalculateAcceleration(float s, float v, float vl, float al)
         {
             var noiseAcc = 0.3f;
-            var accRnd = noiseAcc * (Random.Range(float.MinValue, float.MaxValue) - 0.5f);
+            var accRnd = noiseAcc * (Random.Range(0f, 1f) - 0.5f);
 
             var v0eff = Mathf.Min(v0, speedLimit, speedMax);
             v0eff *= alpha_v0;

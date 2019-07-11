@@ -46,11 +46,6 @@ namespace CivilFX.TrafficV3
 
         //Just for visualization for now
         //function to splice the path into different box segment
-        private void Awake()
-        {
-            var d = -1e-6;
-            Debug.Log(d.ToString("#########0.##########"));
-        }
 
 #if UNITY_EDITOR
         [DrawGizmo(GizmoType.Active | GizmoType.NotInSelectionHierarchy

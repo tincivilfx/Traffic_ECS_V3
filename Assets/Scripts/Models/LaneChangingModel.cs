@@ -13,7 +13,7 @@ namespace CivilFX.TrafficV3
         protected float bSafeMax;
 
         [SerializeField]
-        protected float p;
+        protected float p; //poliness (-0.2 to 1) : default 0.1
 
         [SerializeField]
         protected float bThr;

@@ -3,7 +3,7 @@ namespace CivilFX.TrafficV3 {
     public abstract class CarFollowingModel : ScriptableObject
     {
         [SerializeField]
-        protected float v0;
+        public float v0;
         [SerializeField]
         protected float T;
         [SerializeField]

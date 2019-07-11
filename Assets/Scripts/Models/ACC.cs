@@ -27,7 +27,7 @@ namespace CivilFX.TrafficV3
             // sig_speedFluct=noiseAcc*sqrt(t*dt/12)
 
             var noiseAcc = (s < s0) ? 0f : 0.3f;
-            var accRnd = noiseAcc * (UnityEngine.Random.Range(float.MinValue, float.MaxValue) - 0.5f);
+            var accRnd = noiseAcc * (UnityEngine.Random.Range(0f, 1f) - 0.5f);
 
             // determine valid local v0
 

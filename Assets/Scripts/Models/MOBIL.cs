@@ -20,7 +20,6 @@ namespace CivilFX.TrafficV3
         public override bool RealizeLaneChange(float vrel, float acc, float accNew, float accLagNew, bool toRight)
         {
             var signRight = (toRight) ? 1 : -1;
-
             // safety criterion
 
             var bSafeActual = vrel * bSafe + (1 - vrel) * bSafeMax;
