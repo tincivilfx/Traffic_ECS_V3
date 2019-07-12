@@ -1,7 +1,8 @@
 ﻿using System;
 using UnityEngine;
 
-namespace CivilFX.TrafficV3 {
+namespace CivilFX.TrafficV3
+{
     public class VehicleController : MonoBehaviour, IComparable<VehicleController>
     {
         public float length;
@@ -40,9 +41,33 @@ namespace CivilFX.TrafficV3 {
             return other.u.CompareTo(u);
         }
 
-        public void Init()
+        public void Init(int newLane, float newSpeed)
         {
+            Reset();
+            lane = newLane;
+            speed = newSpeed;
+        }
 
+        public void Reset()
+        {
+            u = 0;
+            lane = 0;
+            laneOld = 0;
+            speed = 30;
+
+            dt_LC = 4;
+            dt_afterLC = 10;
+            dt_lastPassiveLC = 10;
+
+            acc = 0;
+
+
+            iLead = -100;
+            iLag = -100;
+            iLeadRight = -100;
+            iLeadLeft = -100;
+            iLagRight = -100;
+            iLagLeft = -100;
         }
         public void SetPosition(Vector3 pos)
         {

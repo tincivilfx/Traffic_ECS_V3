@@ -10,18 +10,23 @@ namespace CivilFX.TrafficV3
     {
         public GameObject [] prefabs;
         public int vehiclesCount;
-        public List<VehicleController> vehicles;
         public TrafficPath path;
-
+        [SerializeField]
+        private List<VehicleController> vehicles;
+        [SerializeField]
+        private List<VehicleController> vehiclesWaiting;
+        private VehicleController strayVehicle;
         private float pathLength;
         private SplineBuilder pathSpline;
         // Start is called before the first frame update
         private float timeScale;
         void Awake()
         {
+            vehiclesWaiting = new List<VehicleController>(vehiclesCount / 2);
             vehicles = new List<VehicleController>(vehiclesCount);
             while (vehiclesCount > 0) {
                 var go = GameObject.Instantiate(prefabs[Random.Range(0, prefabs.Length)]);
+                go.transform.SetParent(transform);
                 vehicles.Add(go.GetComponent<VehicleController>());
                 vehiclesCount--;
             }
@@ -68,6 +73,7 @@ namespace CivilFX.TrafficV3
             ChangeLanes();
             UpdateSpeedPositions(dt);
             UpdateBCDown();
+            UpdateBCUp();
             UpdateFinalPositions();
         }
 
@@ -224,7 +230,6 @@ namespace CivilFX.TrafficV3
             var waitTime = 4f;
             for (int i=0; i<vehicles.Count; i++) {
                 if (vehicles[i].u > uminLC) {
-
                     // test if there is a target lane 
                     // and if last change is sufficiently long ago
 
@@ -313,13 +318,14 @@ namespace CivilFX.TrafficV3
 
                                 // update the local envionment implies 12 updates, 
                                 // better simply to update all ...
-                                SortVehicles();
-                                UpdateEnvironment();
+
                             }
                         }
                     }
                 }
             }
+            SortVehicles();
+            UpdateEnvironment();
         }
         #endregion
 
@@ -328,10 +334,6 @@ namespace CivilFX.TrafficV3
             foreach (var item in vehicles) {
                 //Debug.Log("U before:" + item.u);
                 item.u += Mathf.Max(0, item.speed * dt + 0.5f * item.acc * dt * dt);
-                if (item.u > pathLength) {
-                    item.u = 0;
-                    continue;
-                }
                 //Debug.Log("U After:" + item.u);
                 item.speed = Mathf.Max(item.speed + item.acc * dt, 0);
             }
@@ -342,6 +344,40 @@ namespace CivilFX.TrafficV3
 
         private void UpdateBCDown()
         {
+            //outflow
+            if (vehicles[0].u > pathLength) {
+                var vehicle = vehicles[0];
+                vehicles.RemoveAt(0);
+                vehicle.gameObject.SetActive(false);
+                vehiclesWaiting.Add(vehicle);
+                SortVehicles();
+                UpdateEnvironment();
+            }
+        }
+
+        private void UpdateBCUp()
+        {
+            if (vehiclesWaiting.Count > 0) {
+                var newLane = vehicles[vehicles.Count - 1].lane + 1;
+                newLane %= path.lanesCount;
+                for (int i = vehicles.Count -2; i>=0; i--) {
+                    if (vehicles[i].lane == newLane) {
+                        if (vehicles[i].u > 10f) {
+                            var vehicle = vehiclesWaiting[0];
+                            vehiclesWaiting.RemoveAt(0);
+                            vehicle.gameObject.SetActive(true);
+                            var newSpeed = Utilities.Map(vehicles[i].u - vehicles[i].length, 0, 10, 0, 30);
+                            newSpeed = Mathf.Clamp(newSpeed, 0, 30f);
+                            vehicle.Init(newLane, newSpeed);
+                            vehicles.Add(vehicle);
+                            SortVehicles();
+                            UpdateEnvironment();
+                        }
+                        return;
+                    }
+                }
+
+            }
         }
 
         private void UpdateFinalPositions()

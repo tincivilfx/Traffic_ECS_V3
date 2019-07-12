@@ -120,6 +120,59 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &159407455
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 159407457}
+  - component: {fileID: 159407456}
+  m_Layer: 0
+  m_Name: Controller (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &159407456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 159407455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4305dbbc484b5034e9ff9ed0776dc271, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabs:
+  - {fileID: 6835335232393431909, guid: 852a94b3b37e1e04fb2a2c130f20fc69, type: 3}
+  - {fileID: 2910769156598846839, guid: 31e9e51ce590791469b466476ede62a0, type: 3}
+  - {fileID: 6276866508295909166, guid: caf43a538feed564e8c194762c594002, type: 3}
+  - {fileID: 819888134194365870, guid: 8acf6d3b4e480f64085d5fabe521b751, type: 3}
+  - {fileID: 6348043879119343944, guid: 99caf13462aca6244bad889435a7c426, type: 3}
+  vehiclesCount: 500
+  path: {fileID: 1699400214}
+  vehicles: []
+  vehiclesWaiting: []
+--- !u!4 &159407457
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 159407455}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &405230995
 GameObject:
   m_ObjectHideFlags: 0
@@ -457,7 +510,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 50000
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -483,8 +536,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.35937202, y: -0.06013072, z: 0.023211714, w: 0.9309658}
-  m_LocalPosition: {x: 101.44284, y: 111.65229, z: -1828.2755}
+  m_LocalRotation: {x: -0.26416552, y: 0.033847954, z: -0.009279922, w: -0.9638386}
+  m_LocalPosition: {x: 418.14658, y: 87.8581, z: -1652.0828}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -525,9 +578,10 @@ MonoBehaviour:
   - {fileID: 6276866508295909166, guid: caf43a538feed564e8c194762c594002, type: 3}
   - {fileID: 819888134194365870, guid: 8acf6d3b4e480f64085d5fabe521b751, type: 3}
   - {fileID: 6348043879119343944, guid: 99caf13462aca6244bad889435a7c426, type: 3}
-  vehiclesCount: 50
-  vehicles: []
+  vehiclesCount: 100
   path: {fileID: 1532633758}
+  vehicles: []
+  vehiclesWaiting: []
 --- !u!4 &1290150231
 Transform:
   m_ObjectHideFlags: 0
