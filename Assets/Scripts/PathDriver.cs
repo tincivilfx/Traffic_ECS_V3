@@ -394,9 +394,18 @@ namespace CivilFX.TrafficV3
                 seg = item.lane * (1f / path.lanesCount) + seg;
                 var pos = Vector3.Lerp(centerStart + left, centerStart + right, seg);
                 var lookAt = Vector3.Lerp(centerEnd + left, centerEnd + right, seg);
-                item.SetPosition(pos);
-                item.SetLookAt(lookAt);
-                
+                var duringLC = item.dt_afterLC < item.dt_LC;
+                if (duringLC) {
+                    var currentPos = item.gameObject.transform.position;
+                    lookAt = pos;
+                    pos = Vector3.Lerp(currentPos, pos, 0.1f);                   
+                    item.SetPosition(pos);
+                    item.SetLookAt(lookAt);
+                } else {
+                    item.SetPosition(pos);
+                    item.SetLookAt(lookAt);
+                }
+
                 //item.SetPosition(GetPositionFromLongitute(item.u));
                 //item.SetLookAt(GetPositionFromLongitute(item.u + 0.1f));
             }
@@ -405,6 +414,11 @@ namespace CivilFX.TrafficV3
         private void SortVehicles()
         {
             vehicles.Sort();
+        }
+
+        public void ResetSimulation()
+        {
+
         }
     }
 }
