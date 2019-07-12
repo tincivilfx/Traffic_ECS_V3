@@ -41,6 +41,7 @@ namespace CivilFX.TrafficV3
             foreach (var item in vehicles) {
                 item.u = uSegment * i;
                 item.lane = 0;
+                item.id = i;
                 ++i;
             }
             vehicles.Sort();
@@ -304,7 +305,8 @@ namespace CivilFX.TrafficV3
 
                                 // do lane change in the direction toRight (left if toRight=0)
                                 //!! only regular lane changes within road; merging/diverging separately!
-
+                                //vehicles[i].currentVelocity = Vector3.zero;
+                                vehicles[i].originalPos = vehicles[i].transform.position;
                                 vehicles[i].dt_afterLC = 0;                // active LC
                                 vehicles[iLagNew].dt_lastPassiveLC = 0;   // passive LC
                                 vehicles[iLeadNew].dt_lastPassiveLC = 0;
@@ -386,21 +388,32 @@ namespace CivilFX.TrafficV3
 
             foreach (var item in vehicles) {
                 var centerStart = GetPositionFromLongitute(item.u);
-                var centerEnd = GetPositionFromLongitute(item.u + 0.01f);
+                var centerEnd = GetPositionFromLongitute(item.u + 10f);
+
                 var dir = (centerEnd - centerStart).normalized;
                 var right = Vector3.Cross(Vector3.up, dir) * path.calculatedWidth;
                 var left = -right;
                 var seg = 1.0f / (path.lanesCount * 2);
                 seg = item.lane * (1f / path.lanesCount) + seg;
                 var pos = Vector3.Lerp(centerStart + left, centerStart + right, seg);
-                var lookAt = Vector3.Lerp(centerEnd + left, centerEnd + right, seg);
+                var lookAt = Vector3.Lerp(centerEnd + left, centerEnd + right, seg) + (dir * 30f);
                 var duringLC = item.dt_afterLC < item.dt_LC;
+                if (item.debug) {
+                    Debug.Log("dt_afterLC: " + item.dt_afterLC + "dt_LC: " + item.dt_LC);
+                }
                 if (duringLC) {
                     var currentPos = item.gameObject.transform.position;
-                    lookAt = pos;
-                    pos = Vector3.Lerp(currentPos, pos, 0.1f);                   
-                    item.SetPosition(pos);
+                    var fAhead = (pos - currentPos).magnitude;
+                    if (item.debug) {
+                        Debug.Log("fAhead:" + fAhead);
+                        var go = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                        go.transform.position = lookAt;
+                    }
+                    //pos = Vector3.Lerp(item.originalPos, pos, item.dt_afterLC / item.dt_LC);
+                    //pos = Vector3.SmoothDamp(currentPos, pos, ref item.currentVelocity, 0.3f);
                     item.SetLookAt(lookAt);
+                    item.SetPositionForward(2);
+                    
                 } else {
                     item.SetPosition(pos);
                     item.SetLookAt(lookAt);

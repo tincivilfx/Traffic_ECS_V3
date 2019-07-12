@@ -21,7 +21,7 @@ namespace CivilFX.TrafficV3
 
         public float fracLaneOptical = 1;
 
-        public float dt_LC = 4;
+        public float dt_LC = 4f; //default : 4
         public float dt_afterLC = 10;
         public float dt_lastPassiveLC = 10;
         public float acc = 0;
@@ -33,8 +33,12 @@ namespace CivilFX.TrafficV3
         public int iLagRight = -100;
         public int iLagLeft = -100;
 
+        public Vector3 originalPos; //used to smoothdamp (before starting to LC)
+        public Vector3 currentVelocity;
         public CarFollowingModel longModel;
         public LaneChangingModel LCModel;
+
+        public bool debug;
 
         public int CompareTo(VehicleController other)
         {
@@ -72,6 +76,11 @@ namespace CivilFX.TrafficV3
         public void SetPosition(Vector3 pos)
         {
             transform.position = pos;
+        }
+
+        public void SetPositionForward(float f)
+        {
+            transform.position += transform.forward * f;
         }
 
         public void SetLookAt(Vector3 pos)
