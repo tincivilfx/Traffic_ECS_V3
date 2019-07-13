@@ -581,7 +581,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &890770373
 GameObject:
@@ -751,8 +751,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: -0.26416552, y: 0.033847954, z: -0.009279922, w: -0.9638386}
-  m_LocalPosition: {x: 418.14658, y: 87.8581, z: -1652.0828}
+  m_LocalRotation: {x: 0.26232302, y: 0.20503888, z: -0.05714452, w: 0.9412122}
+  m_LocalPosition: {x: -80.70877, y: 117.20161, z: -2230.471}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -793,7 +793,7 @@ MonoBehaviour:
   - {fileID: 6276866508295909166, guid: caf43a538feed564e8c194762c594002, type: 3}
   - {fileID: 819888134194365870, guid: 8acf6d3b4e480f64085d5fabe521b751, type: 3}
   - {fileID: 6348043879119343944, guid: 99caf13462aca6244bad889435a7c426, type: 3}
-  vehiclesCount: 100
+  vehiclesCount: 200
   path: {fileID: 1532633758}
   vehicles: []
   vehiclesWaiting: []
@@ -952,18 +952,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unit: 1
   widthPerLane: 12
-  calculatedWidth: 3.6576443
-  lanesCount: 1
+  calculatedWidth: 10.972933
+  lanesCount: 3
   splineResolution: 150
   nodes:
   - {x: 121.616455, y: 3.871668e-17, z: -2209.8691}
   - {x: -22.597717, y: 3.4364153e-17, z: -2135.9268}
-  - {x: -306.90765, y: 3.0011625e-17, z: -1652.477}
-  - {x: -195.42514, y: 2.4211643e-17, z: -1246.4313}
-  - {x: 168.15999, y: 1.62559e-17, z: -1287.6208}
-  - {x: 178.69312, y: 9.547596e-19, z: -1715.2092}
-  - {x: 414.1444, y: -1.434638e-17, z: -2112.069}
-  - {x: 591.87994, y: -2.9647523e-17, z: -2235.5774}
+  - {x: -211.17447, y: 3.0011625e-17, z: -1799.2961}
+  - {x: -5.880478, y: 2.4211643e-17, z: -1620.9403}
+  - {x: 168.70206, y: 1.62559e-17, z: -1990.1581}
+  - {x: 218.12027, y: 8.3001586e-18, z: -2133.8394}
 --- !u!4 &1532633759
 Transform:
   m_ObjectHideFlags: 0
@@ -1285,8 +1283,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unit: 1
   widthPerLane: 12
-  calculatedWidth: 25.60351
-  lanesCount: 7
+  calculatedWidth: 18.288221
+  lanesCount: 5
   splineResolution: 150
   nodes:
   - {x: 1417.187, y: 3.871668e-17, z: -2161.6465}
@@ -1413,7 +1411,7 @@ Transform:
   m_Children:
   - {fileID: 2083313156}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2083313155
 GameObject:
@@ -1659,7 +1657,7 @@ PrefabInstance:
     - target: {fileID: 638726068092030529, guid: da3ca825e1f6c07488839b50c7648c8f,
         type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 638726068092030529, guid: da3ca825e1f6c07488839b50c7648c8f,
         type: 3}
@@ -1678,75 +1676,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da3ca825e1f6c07488839b50c7648c8f, type: 3}
---- !u!1001 &1102886346501714818
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 7616142016860174168, guid: 31e9e51ce590791469b466476ede62a0,
-        type: 3}
-      propertyPath: m_Name
-      value: Acura_TLX_2015_black
-      objectReference: {fileID: 0}
-    - target: {fileID: 6911513698820834635, guid: 31e9e51ce590791469b466476ede62a0,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.000000038146972
-      objectReference: {fileID: 0}
-    - target: {fileID: 6911513698820834635, guid: 31e9e51ce590791469b466476ede62a0,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.003916825
-      objectReference: {fileID: 0}
-    - target: {fileID: 6911513698820834635, guid: 31e9e51ce590791469b466476ede62a0,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.00000006103516
-      objectReference: {fileID: 0}
-    - target: {fileID: 6911513698820834635, guid: 31e9e51ce590791469b466476ede62a0,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6911513698820834635, guid: 31e9e51ce590791469b466476ede62a0,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6911513698820834635, guid: 31e9e51ce590791469b466476ede62a0,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6911513698820834635, guid: 31e9e51ce590791469b466476ede62a0,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6911513698820834635, guid: 31e9e51ce590791469b466476ede62a0,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 6911513698820834635, guid: 31e9e51ce590791469b466476ede62a0,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6911513698820834635, guid: 31e9e51ce590791469b466476ede62a0,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6911513698820834635, guid: 31e9e51ce590791469b466476ede62a0,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 31e9e51ce590791469b466476ede62a0, type: 3}
 --- !u!1001 &1337599013714763319
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1797,7 +1726,7 @@ PrefabInstance:
     - target: {fileID: 4670093866225406849, guid: 255232b2dba47674f9e852a089601141,
         type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4670093866225406849, guid: 255232b2dba47674f9e852a089601141,
         type: 3}

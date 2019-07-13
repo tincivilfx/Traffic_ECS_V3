@@ -40,7 +40,7 @@ namespace CivilFX.TrafficV3
             var i = 0;
             foreach (var item in vehicles) {
                 item.u = uSegment * i;
-                item.lane = 0;
+                item.lane = Random.Range(0, path.lanesCount);
                 item.id = i;
                 ++i;
             }
@@ -364,12 +364,11 @@ namespace CivilFX.TrafficV3
                 newLane %= path.lanesCount;
                 for (int i = vehicles.Count -2; i>=0; i--) {
                     if (vehicles[i].lane == newLane) {
-                        if (vehicles[i].u > 10f) {
+                        if (vehicles[i].u > Random.Range(5f,10f)) {
                             var vehicle = vehiclesWaiting[0];
                             vehiclesWaiting.RemoveAt(0);
                             vehicle.gameObject.SetActive(true);
-                            var newSpeed = Utilities.Map(vehicles[i].u - vehicles[i].length, 0, 10, 0, 30);
-                            newSpeed = Mathf.Clamp(newSpeed, 0, 30f);
+                            var newSpeed = vehicles[i].speed;
                             vehicle.Init(newLane, newSpeed);
                             vehicles.Add(vehicle);
                             SortVehicles();
@@ -393,34 +392,18 @@ namespace CivilFX.TrafficV3
                 var dir = (centerEnd - centerStart).normalized;
                 var right = Vector3.Cross(Vector3.up, dir) * path.calculatedWidth;
                 var left = -right;
-                var seg = 1.0f / (path.lanesCount * 2);
-                seg += item.lane * (1f / path.lanesCount);
-
-                var pos = Vector3.Lerp(centerStart + left, centerStart + right, seg);
+                var seg = (2f * item.lane + 1f) / (2f * path.lanesCount); //lerp value based on lane number               
+                var pos = Vector3.Lerp(centerStart + left, centerStart + right, seg); //actualy position based on lane number
                 var lookAt = Vector3.Lerp(centerEnd + left, centerEnd + right, seg) + (dir * 30f);
                 var duringLC = item.dt_afterLC < item.dt_LC;
-                if (item.debug) {
-                    Debug.Log("dt_afterLC: " + item.dt_afterLC + "dt_LC: " + item.dt_LC);
-                }
-                
-                if (duringLC && true) {
-                    var currentPos = item.gameObject.transform.position;
-                    var fAhead = (pos - currentPos).magnitude;
-                    if (item.debug) {
-                        Debug.Log("fAhead:" + fAhead);
-                        var go = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                        go.transform.position = lookAt;
-                    }
-                    //pos = Vector3.Lerp(item.originalPos, pos, item.dt_afterLC / item.dt_LC);
-                    //pos = Vector3.SmoothDamp(currentPos, pos, ref item.currentVelocity, 0.3f);
-                    item.SetLookAt(lookAt);
-                    item.SetPositionForward(2);
-                    
-                } else {
-                    item.SetPosition(pos);
-                    item.SetLookAt(lookAt);
-                }
 
+                if (duringLC) {
+                    var oldSeg = (2f * item.laneOld + 1f) / (2f * path.lanesCount);
+                    var oldPos = Vector3.Lerp(centerStart + left, centerStart + right, oldSeg);
+                    pos = Vector3.Lerp(oldPos, pos, item.dt_afterLC / item.dt_LC);
+                }
+                item.SetPosition(pos);
+                item.SetLookAt(lookAt);
                 //item.SetPosition(GetPositionFromLongitute(item.u));
                 //item.SetLookAt(GetPositionFromLongitute(item.u + 0.1f));
             }
