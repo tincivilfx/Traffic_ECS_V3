@@ -394,14 +394,16 @@ namespace CivilFX.TrafficV3
                 var right = Vector3.Cross(Vector3.up, dir) * path.calculatedWidth;
                 var left = -right;
                 var seg = 1.0f / (path.lanesCount * 2);
-                seg = item.lane * (1f / path.lanesCount) + seg;
+                seg += item.lane * (1f / path.lanesCount);
+
                 var pos = Vector3.Lerp(centerStart + left, centerStart + right, seg);
                 var lookAt = Vector3.Lerp(centerEnd + left, centerEnd + right, seg) + (dir * 30f);
                 var duringLC = item.dt_afterLC < item.dt_LC;
                 if (item.debug) {
                     Debug.Log("dt_afterLC: " + item.dt_afterLC + "dt_LC: " + item.dt_LC);
                 }
-                if (duringLC) {
+                
+                if (duringLC && true) {
                     var currentPos = item.gameObject.transform.position;
                     var fAhead = (pos - currentPos).magnitude;
                     if (item.debug) {
