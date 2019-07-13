@@ -151,6 +151,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabs:
   - {fileID: 8544692403532882322, guid: 255232b2dba47674f9e852a089601141, type: 3}
+  - {fileID: 8544692403532882322, guid: 44ad2853590086e44bf74a8267cb5d2a, type: 3}
+  - {fileID: 8544692403532882322, guid: afbd8976b6b2ad744bc0fa3f70758b64, type: 3}
+  - {fileID: 8544692403532882322, guid: dd538bbfb99708647afa0f47f33ddf8d, type: 3}
+  - {fileID: 8544692403532882322, guid: cba49bb19020b014bb02ad286a750dee, type: 3}
   vehiclesCount: 500
   path: {fileID: 1699400214}
   vehicles: []
