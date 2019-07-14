@@ -249,7 +249,7 @@ namespace CivilFX.TrafficV3
             if (e.control) {
                 List<Vector3> nodes = new List<Vector3>();
                 SplineBuilder splineBuilder = _target.GetSplineBuilder();
-                var segmentation = 1.0f / _target.splineResolution;
+                var segmentation = 1.0f / 1000f;
                 var t = segmentation;
                 while (t < 1.0f) {
                     nodes.Add(splineBuilder.getPoint(t));

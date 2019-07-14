@@ -19,6 +19,8 @@ namespace CivilFX.TrafficV3
         public int id = 200;
         public bool divergeAhead = false;
         public bool toRight = false;
+        public bool justMerged = false;
+        public bool fromRight = false;
 
         public float fracLaneOptical = 1;
 
