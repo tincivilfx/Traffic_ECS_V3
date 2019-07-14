@@ -14,6 +14,7 @@ namespace CivilFX.TrafficV3
         public int laneOld;
         public float speed;
         public string type;
+        public bool isVirtual;
 
         public int id = 200;
         public bool divergeAhead = false;
