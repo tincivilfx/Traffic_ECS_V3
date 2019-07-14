@@ -18,6 +18,7 @@ namespace CivilFX.TrafficV3
         public VehicleController[] onRampPathObstacles;
         public int onRampPathVehiclesCount;
 
+        public CarFollowingModel longModelCar;
         public LaneChangingModel LCModelCar;
         public LaneChangingModel LCModelMandatoryRight;
         public LaneChangingModel LCModelMandatoryLeft;
@@ -28,8 +29,10 @@ namespace CivilFX.TrafficV3
         {
             waitingVehicles = new List<VehicleController>();
             mainPath.Init(prefabs, mainPathVehiclesCount, mainPathObstacles);
+            mainPath.SetModels(longModelCar, longModelCar, LCModelCar, LCModelCar, LCModelMandatoryRight, LCModelMandatoryLeft);
 
             onRampPath.Init(prefabs, onRampPathVehiclesCount, onRampPathObstacles);
+            onRampPath.SetModels(longModelCar, longModelCar, LCModelCar, LCModelCar, LCModelMandatoryRight, LCModelMandatoryLeft);
         }
 
         private void FixedUpdate()
@@ -39,7 +42,7 @@ namespace CivilFX.TrafficV3
             mainPath.UpdateVehiclesModels(LCModelCar);
             onRampPath.UpdateVehiclesModels(LCModelCar);
 
-            onRampPath.SetLCMandatory(0, onRampPath.path.pathLength, true, LCModelMandatoryRight, LCModelMandatoryLeft);
+            onRampPath.SetLCMandatory(0, onRampPath.path.pathLength, true);
 
             mainPath.UpdateLastLCTimes(dt);
             mainPath.CalcAccelerations();
@@ -53,7 +56,7 @@ namespace CivilFX.TrafficV3
             onRampPath.CalcAccelerations();
             onRampPath.UpdateSpeedPositions(dt);
             onRampPath.UpdateBCUp(waitingVehicles);
-            onRampPath.MergeDiverge(mainPath, 36.5326f, 139.5343f, 243.3057f, true, true, LCModelMandatoryRight, LCModelMandatoryLeft);
+            onRampPath.MergeDiverge(mainPath, 34.5326f, 139.5343f, 243.3057f, true, true);
             onRampPath.UpdateFinalPositions();
 
         }

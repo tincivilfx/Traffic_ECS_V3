@@ -384,26 +384,7 @@ namespace CivilFX.TrafficV3
 
         private void UpdateBCUp()
         {
-            if (!stopRespawning && vehiclesWaiting.Count > 0) {
-                var newLane = vehicles.Count == obstacles.Length ? 0 : vehicles[vehicles.Count - 1].lane + 1;
-                newLane %= mainPath.lanesCount;
-                for (int i = vehicles.Count - 2; i >= 0; i--) {
-                    if (vehicles[i].lane == newLane) {
-                        if (vehicles[i].u > Random.Range(5f, 10f)) {
-                            var vehicle = vehiclesWaiting[0];
-                            vehiclesWaiting.RemoveAt(0);
-                            vehicle.gameObject.SetActive(true);
-                            var newSpeed = vehicles[i].speed;
-                            vehicle.Init(newLane, newSpeed);
-                            vehicles.Add(vehicle);
-                            SortVehicles();
-                            UpdateEnvironment();
-                        }
-                        return;
-                    }
-                }
-
-            }
+            
         }
 
         private void UpdateFinalPositions()

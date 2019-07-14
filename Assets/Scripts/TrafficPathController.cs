@@ -12,6 +12,14 @@ namespace CivilFX.TrafficV3
         private float pathLength;
         private SplineBuilder pathSpline;
         private int iTargetFirst;
+
+        private CarFollowingModel longModelCar;
+        private CarFollowingModel longModelTruck;
+        private LaneChangingModel LCModelCar;
+        private LaneChangingModel LCModelTruck;
+        private LaneChangingModel LCModelMandatoryRight;
+        private LaneChangingModel LCModelMandatoryLeft;
+
         public void Init(GameObject[] prefabs, int vehiclesCount)
         {
             pathSpline = path.GetSplineBuilder(true);
@@ -34,12 +42,24 @@ namespace CivilFX.TrafficV3
                 item.id = 200 + i;
                 ++i;
             }
+
         }
 
         public void Init(GameObject[] prefabs, int vehiclesCount, VehicleController[] obstacles)
         {
             Init(prefabs, vehiclesCount);
             AddObstacles(obstacles);
+        }
+
+        public void SetModels(CarFollowingModel _longModelCar, CarFollowingModel _longModelTruck, LaneChangingModel _LCModelCar, LaneChangingModel _LCModelTruck,
+            LaneChangingModel _LCModelMandatoryRight, LaneChangingModel _LCModelMandatoryLeft)
+        {
+            longModelCar = _longModelCar;
+            longModelTruck = _longModelTruck;
+            LCModelCar = _LCModelCar;
+            LCModelTruck = _LCModelTruck;
+            LCModelMandatoryRight = _LCModelMandatoryRight;
+            LCModelMandatoryLeft = _LCModelMandatoryLeft;
         }
 
         public void AddObstacles(VehicleController[] obstacles)
@@ -65,14 +85,14 @@ namespace CivilFX.TrafficV3
             }
         }
 
-        public void SetLCMandatory(float umin, float umax, bool toRight, LaneChangingModel LCModelRight, LaneChangingModel LCModelLeft)
+        public void SetLCMandatory(float umin, float umax, bool toRight)
         {
             foreach (var item in vehicles) {
                 if (!item.isVirtual) {
                     var u = item.u;
                     if ((u > umin) && (u < umax)) {
                         item.toRight = toRight;
-                        item.LCModel = toRight ? LCModelRight : LCModelLeft;
+                        item.LCModel = toRight ? LCModelMandatoryRight : LCModelMandatoryLeft;
                     }
                 }
             }
@@ -366,6 +386,7 @@ namespace CivilFX.TrafficV3
 
         public void UpdateBCUp(List<VehicleController> vehiclesWaiting)
         {
+            //Debug.Log(gameObject.name + "-UpdateBCUp: " + vehiclesWaiting.Count);
             if (vehiclesWaiting.Count > 0) {
                 var newLane = vehicles[vehicles.Count - 1].lane + 1;
                 newLane %= path.lanesCount;
@@ -388,7 +409,6 @@ namespace CivilFX.TrafficV3
         }
 
         public void MergeDiverge(TrafficPathController newPath, float offset, float uBegin, float uEnd, bool isMerge, bool toRight,
-            LaneChangingModel LCModelMandatoryRight, LaneChangingModel LCModelMandatoryLeft,
             bool ignoreRoute=false, bool prioOther=false, bool prioOwn=false)
         {
             var padding = 0; // visib. extension for orig drivers to target vehs
@@ -432,13 +452,13 @@ namespace CivilFX.TrafficV3
 
             // (2a) immediate success if no target vehicles in neighbourhood
             // and at least one (real) origin vehicle: the first one changes
-            Debug.Log("targetVehicles.Count: " + targetVehicles.Count);
-            Debug.Log("originVehicles.Count: " + originVehicles.Count);
+            //Debug.Log("targetVehicles.Count: " + targetVehicles.Count);
+            //Debug.Log("originVehicles.Count: " + originVehicles.Count);
             var success = ((targetVehicles.Count == 0) && (originVehicles.Count > 0)
                   && !originVehicles[0].isVirtual
                   && (originVehicles[0].u >= uBegin) // otherwise only LT coupl
                   && (loc_ignoreRoute || originVehicles[0].divergeAhead));
-            Debug.Log("success: " + success);
+            //Debug.Log("success: " + success);
             if (success) { iMerge = 0; uTarget = originVehicles[0].u + offset; }
 
             // (2b) otherwise select the first suitable candidate of originVehicles
@@ -452,7 +472,11 @@ namespace CivilFX.TrafficV3
                 var duLeader = 1000f; // initially big distances w/o interaction
                 var duFollower = -1000f;
                 var leaderNew = new VehicleController(0, 0, uNewBegin + 10000, targetLane, 0, "car");
+                leaderNew.longModel = longModelCar;
+                leaderNew.LCModel = LCModelCar;
                 var followerNew = new VehicleController(0, 0, uNewBegin - 10000, targetLane, 0, "car");
+                followerNew.longModel = longModelCar;
+                leaderNew.LCModel = LCModelCar;
 
                 // loop over originVehicles for merging veh candidates
                 for (var i = 0; (i < originVehicles.Count) && (!success); i++) {               
@@ -596,6 +620,8 @@ namespace CivilFX.TrafficV3
                 
                 var changingVeh = vehicles[iOrig]; //originVehicles[iMerge];
                 var vOld = (toRight) ? targetLane - 1 : targetLane + 1; // rel. to NEW road
+                changingVeh.fromRight = !toRight;
+                changingVeh.justMerged = true;
                 changingVeh.u += offset;
                 changingVeh.lane = targetLane;
                 changingVeh.laneOld = vOld; // following for  drawing purposes
@@ -650,9 +676,21 @@ namespace CivilFX.TrafficV3
                 var duringLC = item.dt_afterLC < item.dt_LC;
 
                 if (duringLC) {
-                    var oldSeg = (2f * item.laneOld + 1f) / (2f * path.lanesCount);
-                    var oldPos = Vector3.Lerp(centerStart + left, centerStart + right, oldSeg);
-                    pos = Vector3.Lerp(oldPos, pos, item.dt_afterLC / item.dt_LC);
+                    if (!item.justMerged) {
+                        var oldSeg = (2f * item.laneOld + 1f) / (2f * path.lanesCount);
+                        var oldPos = Vector3.Lerp(centerStart + left, centerStart + right, oldSeg);
+                        pos = Vector3.Lerp(oldPos, pos, item.dt_afterLC / item.dt_LC);
+                    } else {
+                        //recalculate path
+                        var newWidth = path.unit == Unit.Meters ? path.widthPerLane * (path.lanesCount + 2) : path.widthPerLane * (path.lanesCount + 2) / 3.2808f;
+                        right = Vector3.Cross(Vector3.up, dir) * newWidth;
+                        left = -right;
+                        var oldSeg = (2f * item.lane + 1f) / (2f * (path.lanesCount + 2));
+                        var oldPos = Vector3.Lerp(centerStart + left, centerStart + right, oldSeg);
+                        pos = Vector3.Lerp(oldPos, pos, item.dt_afterLC / item.dt_LC);
+                    }
+                } else {
+                    item.justMerged = false;
                 }
                 item.SetPosition(pos);
                 item.SetLookAt(lookAt);

@@ -151,19 +151,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unit: 1
-  widthPerLane: 10
-  calculatedWidth: 3.048037
-  pathLength: 247.53156
+  widthPerLane: 12
+  calculatedWidth: 3.6576443
+  pathLength: 247.86646
   lanesCount: 1
   splineResolution: 150
   nodes:
   - {x: -170.48907, y: 4.755298e-17, z: -2150.532}
   - {x: -161.44724, y: 4.7285667e-17, z: -2132.6926}
   - {x: -136.39018, y: 4.6544884e-17, z: -2083.2554}
-  - {x: -129.73553, y: 4.4512098e-17, z: -2022.0864}
-  - {x: -158.05467, y: 4.3681476e-17, z: -1969.7167}
-  - {x: -192.24684, y: 4.159616e-17, z: -1908.5918}
-  - {x: -192.93712, y: 4.100068e-17, z: -1893.0831}
+  - {x: -128.20087, y: 4.4512098e-17, z: -2026.3649}
+  - {x: -160.57343, y: 4.3681476e-17, z: -1966.8507}
+  - {x: -192.6488, y: 4.159616e-17, z: -1909.0048}
+  - {x: -210.85225, y: 4.09993e-17, z: -1860.8893}
 --- !u!4 &51345176
 Transform:
   m_ObjectHideFlags: 0
@@ -330,6 +330,8 @@ MonoBehaviour:
   id: 200
   divergeAhead: 0
   toRight: 0
+  justMerged: 0
+  fromRight: 0
   fracLaneOptical: 1
   dt_LC: 4
   dt_afterLC: 10
@@ -998,11 +1000,12 @@ MonoBehaviour:
   mainPathObstacles:
   - {fileID: 1664111886}
   - {fileID: 464598465}
-  mainPathVehiclesCount: 10
+  mainPathVehiclesCount: 100
   onRampPath: {fileID: 51345177}
   onRampPathObstacles:
   - {fileID: 1925667310}
   onRampPathVehiclesCount: 10
+  longModelCar: {fileID: 11400000, guid: df2103459561448428e2e5c52f404974, type: 2}
   LCModelCar: {fileID: 11400000, guid: 82068d22fbfdd594282d9a4082ea70b3, type: 2}
   LCModelMandatoryRight: {fileID: 11400000, guid: 3246432f94a926145aede2a2e36104fe,
     type: 2}
@@ -1584,6 +1587,8 @@ MonoBehaviour:
   id: 200
   divergeAhead: 0
   toRight: 0
+  justMerged: 0
+  fromRight: 0
   fracLaneOptical: 1
   dt_LC: 4
   dt_afterLC: 10
@@ -1732,6 +1737,8 @@ MonoBehaviour:
   id: 200
   divergeAhead: 0
   toRight: 0
+  justMerged: 0
+  fromRight: 0
   fracLaneOptical: 1
   dt_LC: 4
   dt_afterLC: 10
