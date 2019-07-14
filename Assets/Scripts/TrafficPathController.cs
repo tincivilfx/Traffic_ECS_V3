@@ -11,29 +11,35 @@ namespace CivilFX.TrafficV3
         public List<VehicleController> vehicles;
         private float pathLength;
         private SplineBuilder pathSpline;
-
-        public void Init(GameObject[] prefabs, int vehiclesCount)
+        private int iTargetFirst;
+        private int vehiclesCount;
+        public void Init(GameObject[] prefabs, int _vehiclesCount)
         {
             pathSpline = path.GetSplineBuilder(true);
             pathLength = pathSpline.pathLength;
+            vehiclesCount = _vehiclesCount;
 
-            vehicles = new List<VehicleController>(vehiclesCount);
-            while (vehiclesCount > 0) {
+            vehicles = new List<VehicleController>(_vehiclesCount);
+            while (_vehiclesCount > 0) {
                 var go = GameObject.Instantiate(prefabs[Random.Range(0, prefabs.Length)]);
                 go.transform.SetParent(transform);
                 vehicles.Add(go.GetComponent<VehicleController>());
-                vehiclesCount--;
+                _vehiclesCount--;
             }
             Debug.Log(pathLength);
             var uSegment = (pathLength - (pathLength * 0.1f)) / vehicles.Count;
 
             var i = 0;
             foreach (var item in vehicles) {
+                if (item.isVirtual) {
+                    continue;
+                }
                 item.u = uSegment * i;
                 item.lane = Random.Range(0, path.lanesCount);
                 item.id = 200 + i;
                 ++i;
             }
+            
         }
 
         public void Init(GameObject[] prefabs, int vehiclesCount, VehicleController[] obstacles)
@@ -366,7 +372,7 @@ namespace CivilFX.TrafficV3
 
         public void UpdateBCUp(List<VehicleController> vehiclesWaiting)
         {
-            if (vehiclesWaiting.Count > 0) {
+            if (vehicles.Count < vehiclesCount && vehiclesWaiting.Count > 0) {
                 var newLane = vehicles[vehicles.Count - 1].lane + 1;
                 newLane %= path.lanesCount;
                 for (int i = vehicles.Count - 2; i >= 0; i--) {
@@ -387,10 +393,254 @@ namespace CivilFX.TrafficV3
             }
         }
 
-        public void MergeDiverge()
+        public void MergeDiverge(float oldPathUBegin, float oldPathUEnd , TrafficPathController newPath, float newPathUBegin, float newPathUEnd, bool isMerge, bool toRight,
+            LaneChangingModel LCModelMandatoryRight, LaneChangingModel LCModelMandatoryLeft,
+            bool ignoreRoute=false, bool prioOther=false, bool prioOwn=false)
         {
+            var log = false;
+            //var log=(this.roadID==7)&&isMerge;    
+            //var log=((this.roadID===10)&&(this.veh.length>0)&&(!isMerge));
 
+            var offset = newPathUEnd - oldPathUEnd + 10;
+            var padding = 20; // visib. extension for orig drivers to target vehs
+            var paddingLTC =           // visib. extension for target drivers to orig vehs
+            (isMerge && prioOwn) ? 20 : 0;
+
+            var loc_ignoreRoute = ignoreRoute; // default: routes  matter at diverges
+            if (isMerge) loc_ignoreRoute = true;  // merging must be always possible
+
+            var loc_prioOther = prioOther;
+
+            var loc_prioOwn =  prioOwn;
+            if (loc_prioOwn && loc_prioOther) {
+                Debug.Log("road.mergeDiverge: Warning: prioOther and prioOwn" +
+                        " cannot be true simultaneously; setting prioOwn=false");
+                loc_prioOwn = false;
+            }
+
+
+
+
+            // (1) get neighbourhood
+            // GetTargetNeighbourhood also sets [this|newPath].iTargetFirst
+            var originLane = (toRight) ? path.lanesCount - 1 : 0;
+            var targetLane = (toRight) ? 0 : newPath.path.lanesCount - 1;
+            var originVehicles = this.GetTargetNeighbourhood(
+            oldPathUBegin, oldPathUEnd, originLane); // padding only for LT coupling!
+
+            var targetVehicles = newPath.GetTargetNeighbourhood(
+            newPathUBegin, newPathUEnd, targetLane);
+
+            var iMerge = 0; // candidate of the originVehicles neighbourhood
+            var uTarget = 0f;  // long. coordinate of this vehicle on the orig road
+
+
+            // (2) select changing vehicle (if any): 
+            // only one at each calling; the first vehicle has priority!
+
+            // (2a) immediate success if no target vehicles in neighbourhood
+            // and at least one (real) origin vehicle: the first one changes
+            //Debug.Log("targetVehicles.Count: " + targetVehicles.Count);
+            //Debug.Log("originVehicles.Count: " + originVehicles.Count);
+            var success = ((targetVehicles.Count == 0) && (originVehicles.Count > 0)
+                  && !originVehicles[0].isVirtual
+                  && (originVehicles[0].u >= newPathUBegin) // otherwise only LT coupl
+                  && (loc_ignoreRoute || originVehicles[0].divergeAhead));
+            if (success) { iMerge = 0; uTarget = originVehicles[0].u; }
+
+            // (2b) otherwise select the first suitable candidate of originVehicles
+
+            else if (originVehicles.Count > 0) {
+
+                // initializing of interacting partners with virtual vehicles
+                // having no interaction because of their positions
+                // default models also initialized in the constructor
+
+                var duLeader = 1000f; // initially big distances w/o interaction
+                var duFollower = -1000f;
+                var leaderNew = new VehicleController(0, 0, newPathUBegin + 10000, targetLane, 0, "car");
+                var followerNew = new VehicleController(0, 0, newPathUEnd - 10000, targetLane, 0, "car");
+
+                // loop over originVehicles for merging veh candidates
+                for (var i = 0; (i < originVehicles.Count) && (!success); i++) {               
+                    if (!originVehicles[i].isVirtual
+                       && (loc_ignoreRoute || originVehicles[i].divergeAhead)) {
+
+                        //inChangeRegion can be false for LTC since then paddingLTC>0
+                        var inChangeRegion = (originVehicles[i].u > newPathUBegin);
+
+                        uTarget = originVehicles[i].u;
+
+                        // inner loop over targetVehicles: search prospective 
+                        // new leader leaderNew and follower followerNew and get the gaps
+                        // notice: even if there are >0 target vehicles 
+                        // (that is guaranteed because of the inner-loop conditions),
+                        //  none may be eligible
+                        // therefore check for jTarget==-1
+
+                        var jTarget = -1; ;
+                        for (var j = 0; j < targetVehicles.Count; j++) {
+                            var du = targetVehicles[j].u - uTarget;
+                            if ((du > 0) && (du < duLeader)) {
+                                duLeader = du; leaderNew = targetVehicles[j];
+                            }
+                            if ((du < 0) && (du > duFollower)) {
+                                jTarget = j; duFollower = du; followerNew = targetVehicles[j];
+                            }
+                        }
+
+
+                        // get input variables for MOBIL
+                        // qualifiers for state var s,acc: 
+                        // [nothing] own vehicle before LC
+                        // vehicles: leaderNew, followerNew
+                        // subscripts/qualifiers:
+                        //   New=own vehicle after LC
+                        //   LeadNew= new leader (not affected by LC but acc needed)
+                        //   Lag new lag vehicle before LC (only relevant for accLag)
+                        //   LagNew=new lag vehicle after LC (for accLagNew)
+
+                        var sNew = duLeader - leaderNew.length;
+                        var sLagNew = -duFollower - originVehicles[i].length;
+                        var speedLeadNew = leaderNew.speed;
+                        var accLeadNew = leaderNew.acc; // leaders=exogen. to MOBIL
+                        var speedLagNew = followerNew.speed;
+                        var speed = originVehicles[i].speed;
+
+                        var LCModel = (toRight) ? LCModelMandatoryRight
+                        : LCModelMandatoryLeft;
+
+                        var vrel = originVehicles[i].speed / originVehicles[i].longModel.v0;
+
+                        var acc = originVehicles[i].acc;
+                        var accNew = originVehicles[i].longModel.CalculateAcceleration(
+                        sNew, speed, speedLeadNew, accLeadNew);
+                        var accLag = followerNew.acc;
+                        var accLagNew = originVehicles[i].longModel.CalculateAcceleration(
+                        sLagNew, speedLagNew, speed, accNew);
+
+
+
+
+                        // MOBIL decisions
+                        var prio_OK = (!loc_prioOther) || loc_prioOwn
+                        || (!LCModel.RespectPriority(accLag, accLagNew));
+
+                        var MOBILOK = LCModel.RealizeLaneChange(
+                        vrel, acc, accNew, accLagNew, toRight);
+
+                        success = prio_OK && inChangeRegion && MOBILOK
+                        && (!originVehicles[i].isVirtual)
+                        && (sNew > 0) && (sLagNew > 0);
+
+                        if (success) { iMerge = i; }
+                       
+                    } // !obstacle
+
+                }// merging veh loop
+            }// else branch (there are target vehicles)
+
+
+            //(3) realize longitudinal-transversal coupling (LTC)
+            // exerted onto target vehicles if merge and loc_prioOwn
+
+
+            if (isMerge && loc_prioOwn) {
+
+                // (3a) determine stop line such that there cannot be a grid lock for any
+                // merging vehicle, particularly the longest vehicle
+
+                var vehLenMax = 9;
+                var stopLinePosNew = newPathUEnd - vehLenMax - 2;
+                var bSafe = 4;
+
+                // (3b) all target vehs stop at stop line if at least one origin veh
+                // is follower and 
+                // the deceleration to do so is less than bSafe
+                // if the last orig vehicle is a leader and interacting decel is less,
+                // use it
+
+                for (var j = 0; j < targetVehicles.Count; j++) {
+                    var sStop = stopLinePosNew - targetVehicles[j].u; // gap to stop for target veh
+                    var speedTarget = targetVehicles[j].speed;
+                    var accTargetStop = targetVehicles[j].longModel.CalculateAcceleration(sStop, speedTarget, 0, 0);
+
+                    var iLast = -1;
+                    for (var i = originVehicles.Count - 1; (i >= 0) && (iLast == -1); i--) {
+                        if (!originVehicles[i].isVirtual) { iLast = i; }
+                    }
+
+                    if ((iLast > -1) && !targetVehicles[j].isVirtual) {
+                        var du = originVehicles[iLast].u - targetVehicles[j].u;
+                        var lastOrigIsLeader = (du > 0);
+                        if (lastOrigIsLeader) {
+                            var s = du - originVehicles[iLast].length;
+                            var speedOrig = originVehicles[iLast].speed;
+                            var accLTC
+                            = targetVehicles[j].longModel.CalculateAcceleration(s, speedTarget, speedOrig, 0);
+                            var accTarget = Mathf.Min(targetVehicles[j].acc,
+                                       Mathf.Max(accLTC, accTargetStop));
+                            if (accTarget > -bSafe) {
+                                targetVehicles[j].acc = accTarget;
+                            }
+                        } else { // if last orig not leading, stop always if it can be done safely
+                            if (accTargetStop > -bSafe) {
+                                var accTarget = Mathf.Min(targetVehicles[j].acc, accTargetStop);
+                                targetVehicles[j].acc = accTarget;
+                            }
+                        }              
+                    }
+
+                }
+            }
+
+            //(4) if success, do the actual merging!
+            if (success) {// do the actual merging 
+
+                //originVehicles[iMerge]=veh[iMerge+this.iTargetFirst] 
+
+                var iOrig = iMerge + iTargetFirst;
+                
+                var changingVeh = vehicles[iOrig]; //originVehicles[iMerge];
+                var vOld = (toRight) ? targetLane - 1 : targetLane + 1; // rel. to NEW road
+                changingVeh.u += offset;
+                //Debug.Log("changingVeh.lane: " + changingVeh.lane);
+                //Debug.Log("changingVeh.laneOld = vOld;: " + changingVeh.laneOld);
+                changingVeh.lane = targetLane;
+                changingVeh.laneOld = vOld; // following for  drawing purposes
+                changingVeh.v = vOld;  // real lane position (graphical)
+                changingVeh.dt_afterLC = 0;             // just changed
+                changingVeh.divergeAhead = false; // reset mandatory LC behaviour
+
+
+                //####################################################################
+                vehicles.RemoveRange(iOrig, 1);// removes chg veh from orig.
+                newPath.vehicles.Add(changingVeh); // appends changingVeh at last pos;
+                                               //####################################################################
+
+                //newPath.nveh=newPath.veh.length;
+                newPath.SortVehicles();       // move the mergingVeh at correct position
+                newPath.UpdateEnvironment(); // and provide updated neighbors
+            }// end do the actual merging
         }
+
+        private List<VehicleController> GetTargetNeighbourhood(float umin, float umax, int targetLane)
+        {
+            List<VehicleController> targets = new List<VehicleController>();
+            var firstTime = true;
+            iTargetFirst = 0;
+            for (int i=0; i<vehicles.Count; i++) {
+                if ((vehicles[i].lane == targetLane) && (vehicles[i].u >= umin) && (vehicles[i].u <= umax)) {
+                    if (firstTime) {
+                        iTargetFirst = i;
+                        firstTime = false;
+                    }
+                    targets.Add(vehicles[i]);
+                }
+            }
+            return targets;
+        }
+
 
         public void UpdateFinalPositions()
         {

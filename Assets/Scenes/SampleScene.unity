@@ -915,6 +915,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1099024885
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1099024886}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1099024886
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1099024885}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -128.8, y: -1.6182, z: -1995.7}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1290150229
 GameObject:
   m_ObjectHideFlags: 0
@@ -968,11 +998,16 @@ MonoBehaviour:
   mainPathObstacles:
   - {fileID: 1664111886}
   - {fileID: 464598465}
-  mainPathVehiclesCount: 50
+  mainPathVehiclesCount: 100
   onRampPath: {fileID: 51345177}
   onRampPathObstacles:
   - {fileID: 1925667310}
-  onRampPathVehiclesCount: 20
+  onRampPathVehiclesCount: 5
+  LCModelCar: {fileID: 11400000, guid: 82068d22fbfdd594282d9a4082ea70b3, type: 2}
+  LCModelMandatoryRight: {fileID: 11400000, guid: 3246432f94a926145aede2a2e36104fe,
+    type: 2}
+  LCModelMandatoryLeft: {fileID: 11400000, guid: be7ac5dd5f090fe47b35bb4fa5463100,
+    type: 2}
 --- !u!1 &1366316854
 GameObject:
   m_ObjectHideFlags: 0
@@ -1650,7 +1685,6 @@ GameObject:
   - component: {fileID: 1925667309}
   - component: {fileID: 1925667313}
   - component: {fileID: 1925667312}
-  - component: {fileID: 1925667311}
   - component: {fileID: 1925667310}
   m_Layer: 0
   m_Name: Obstacle
@@ -1687,7 +1721,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   length: 5
   width: 7.605966
-  u: 240
+  u: 245
   lane: 0
   v: 0
   dvdt: 0
@@ -1714,19 +1748,6 @@ MonoBehaviour:
   longModel: {fileID: 11400000, guid: 4387c7c54ad8db746a7dbbc221d2611d, type: 2}
   LCModel: {fileID: 11400000, guid: b20b89e2a97ca5048bbcac616fe74e32, type: 2}
   debug: 0
---- !u!65 &1925667311
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1925667308}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1925667312
 MeshRenderer:
   m_ObjectHideFlags: 0
