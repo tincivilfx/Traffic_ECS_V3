@@ -18,6 +18,9 @@ namespace CivilFX.TrafficV3
         public VehicleController[] onRampPathObstacles;
         public int onRampPathVehiclesCount;
 
+        public TrafficPathController offRampPath;
+
+
         public CarFollowingModel longModelCar;
         public LaneChangingModel LCModelCar;
         public LaneChangingModel LCModelMandatoryRight;
@@ -33,6 +36,9 @@ namespace CivilFX.TrafficV3
 
             onRampPath.Init(prefabs, onRampPathVehiclesCount, onRampPathObstacles);
             onRampPath.SetModels(longModelCar, longModelCar, LCModelCar, LCModelCar, LCModelMandatoryRight, LCModelMandatoryLeft);
+
+            offRampPath.SetModels(longModelCar, longModelCar, LCModelCar, LCModelCar, LCModelMandatoryRight, LCModelMandatoryLeft);
+
         }
 
         private void FixedUpdate()
@@ -59,6 +65,8 @@ namespace CivilFX.TrafficV3
             onRampPath.MergeDiverge(mainPath, 34.5326f, 139.5343f, 243.3057f, true, true);
             onRampPath.UpdateFinalPositions();
 
+            //offramp
+            offRampPath.UpdateLastLCTimes(dt);
         }
     }
 }

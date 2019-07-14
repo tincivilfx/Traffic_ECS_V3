@@ -5,7 +5,7 @@ namespace CivilFX.TrafficV3 {
         [SerializeField]
         public float v0;
         [SerializeField]
-        protected float T;
+        public float T;
         [SerializeField]
         protected float s0;
         [SerializeField]
@@ -15,7 +15,7 @@ namespace CivilFX.TrafficV3 {
         [SerializeField]
         protected int alpha_v0;
         [SerializeField]
-        protected float speedLimit;
+        public float speedLimit;
         [SerializeField]
         protected float speedMax;
         [SerializeField]

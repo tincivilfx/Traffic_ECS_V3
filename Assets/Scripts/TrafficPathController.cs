@@ -12,6 +12,7 @@ namespace CivilFX.TrafficV3
         private float pathLength;
         private SplineBuilder pathSpline;
         private int iTargetFirst;
+        private int vehiclesCount;
 
         private CarFollowingModel longModelCar;
         private CarFollowingModel longModelTruck;
@@ -20,17 +21,17 @@ namespace CivilFX.TrafficV3
         private LaneChangingModel LCModelMandatoryRight;
         private LaneChangingModel LCModelMandatoryLeft;
 
-        public void Init(GameObject[] prefabs, int vehiclesCount)
+        public void Init(GameObject[] prefabs, int _vehiclesCount)
         {
             pathSpline = path.GetSplineBuilder(true);
             pathLength = pathSpline.pathLength;
-
-            vehicles = new List<VehicleController>(vehiclesCount);
-            while (vehiclesCount > 0) {
+            vehiclesCount = _vehiclesCount;
+            vehicles = new List<VehicleController>(_vehiclesCount);
+            while (_vehiclesCount > 0) {
                 var go = GameObject.Instantiate(prefabs[Random.Range(0, prefabs.Length)]);
                 go.transform.SetParent(transform);
                 vehicles.Add(go.GetComponent<VehicleController>());
-                vehiclesCount--;
+                _vehiclesCount--;
             }
             Debug.Log(pathLength);
             var uSegment = (pathLength - (pathLength * 0.1f)) / vehicles.Count;
@@ -42,7 +43,7 @@ namespace CivilFX.TrafficV3
                 item.id = 200 + i;
                 ++i;
             }
-
+            
         }
 
         public void Init(GameObject[] prefabs, int vehiclesCount, VehicleController[] obstacles)
@@ -386,24 +387,53 @@ namespace CivilFX.TrafficV3
 
         public void UpdateBCUp(List<VehicleController> vehiclesWaiting)
         {
-            //Debug.Log(gameObject.name + "-UpdateBCUp: " + vehiclesWaiting.Count);
-            if (vehiclesWaiting.Count > 0) {
-                var newLane = vehicles[vehicles.Count - 1].lane + 1;
-                newLane %= path.lanesCount;
-                for (int i = vehicles.Count - 2; i >= 0; i--) {
-                    if (vehicles[i].lane == newLane) {
-                        if (vehicles[i].u > Random.Range(5f, 10f)) {
-                            var vehicle = vehiclesWaiting[0];
-                            vehiclesWaiting.RemoveAt(0);
-                            vehicle.gameObject.SetActive(true);
-                            var newSpeed = vehicles[i].speed;
-                            vehicle.Init(newLane, newSpeed);
-                            vehicles.Add(vehicle);
-                            SortVehicles();
-                            UpdateEnvironment();
+
+            var smin = 15f;
+            var currentVehiclesCount = 0;
+            foreach (var item in vehicles) {
+                if (!item.isVirtual) {
+                    ++currentVehiclesCount;
+                }
+            }
+
+            if (currentVehiclesCount < vehiclesCount && vehiclesWaiting.Count > 0) {
+                var succes = false;
+                var space = path.pathLength;
+                var lane = path.lanesCount - 1;
+
+                var iLead = vehicles.Count - 1;
+                while ((iLead > 0) && (vehicles[iLead].lane != lane)) {
+                    iLead--;
+                }
+                if (iLead == -1) {
+                    succes = true;
+                } else {
+                    space = vehicles[iLead].u - vehicles[iLead].length;
+                    succes = (space > smin);
+                }
+
+                if (!succes) {
+                    var spaceMax = 0f;
+                    for (var candLane = path.lanesCount - 1; candLane >=0; candLane--) {
+                        iLead = vehicles.Count - 1;
+                        while ((iLead >=0) && vehicles[iLead].lane != candLane) {
+                            iLead--;
                         }
-                        return;
+                        space = iLead >= 0 ? vehicles[iLead].u - vehicles[iLead].length : path.pathLength + candLane;
+                        if (space > spaceMax) {
+                            lane = candLane;
+                            spaceMax = space;
+                        }
                     }
+                }
+                succes = space >= smin;
+                if (succes) {
+                    var speedNew = Mathf.Min(longModelCar.v0, longModelCar.speedLimit, space / longModelCar.T);
+                    var vehicle = vehiclesWaiting[0];
+                    vehicle.gameObject.SetActive(true);
+                    vehicle.Init(lane, speedNew);
+                    vehiclesWaiting.Remove(vehicle);
+                    vehicles.Add(vehicle);
                 }
             }
         }
