@@ -8,20 +8,28 @@ namespace CivilFX.TrafficV3
 {
     public class PathDriver : MonoBehaviour
     {
-        public GameObject [] prefabs;
+        public GameObject[] prefabs;
+        public VehicleController[] obstacles;
         public int vehiclesCount;
-        public TrafficPath path;
+        public TrafficPath mainPath;
+        public TrafficPath onRampPath;
         [SerializeField]
         private List<VehicleController> vehicles;
         [SerializeField]
         private List<VehicleController> vehiclesWaiting;
-        private VehicleController strayVehicle;
+
+
+        public bool stopRespawning;
+
         private float pathLength;
         private SplineBuilder pathSpline;
         // Start is called before the first frame update
         private float timeScale;
         void Awake()
         {
+            var f = 8.495911e-08;
+            Debug.Log(f.ToString("############.##################"));
+
             vehiclesWaiting = new List<VehicleController>(vehiclesCount / 2);
             vehicles = new List<VehicleController>(vehiclesCount);
             while (vehiclesCount > 0) {
@@ -31,23 +39,25 @@ namespace CivilFX.TrafficV3
                 vehiclesCount--;
             }
 
-            pathSpline = path.GetSplineBuilder();
+            pathSpline = mainPath.GetSplineBuilder();
             pathLength = pathSpline.pathLength;
             Debug.Log(pathLength);
 
             var uSegment = pathLength / vehicles.Count;
-
             var i = 0;
             foreach (var item in vehicles) {
                 item.u = uSegment * i;
-                item.lane = 0;
-                item.id = i;
+                item.lane = Random.Range(0, mainPath.lanesCount);
+                item.id = 200 + i;
                 ++i;
             }
+            vehicles.AddRange(obstacles);
             vehicles.Sort();
+            /*
             foreach (var item in vehicles) {
                 item.SetPosition(GetPositionFromLongitute(item.u));
             }
+            */
             timeScale = Time.timeScale;
             //EditorApplication.isPaused = true;
         }
@@ -112,7 +122,7 @@ namespace CivilFX.TrafficV3
                 }
                 //Debug.Log(s + ":" + speed + ":" + speedLead + ":" + accLead);
                 //Debug.Log("Acc Before: " + item.acc);
-                item.acc = item.longModel.CalculateAcceleration(s, speed, speedLead, accLead);
+                item.acc = item.isVirtual ? 0 : item.longModel.CalculateAcceleration(s, speed, speedLead, accLead);
                 //Debug.Log("Acc After: " + item.acc.ToString("###############.################"));
                 ++i;
             }
@@ -121,7 +131,7 @@ namespace CivilFX.TrafficV3
         #region Update Environment
         private void UpdateEnvironment()
         {
-            for (int i=0; i<vehicles.Count; i++) {
+            for (int i = 0; i < vehicles.Count; i++) {
                 UpdateILead(i);
                 UpdateILag(i);
                 UpdateILeadRight(i);
@@ -158,7 +168,7 @@ namespace CivilFX.TrafficV3
         {
             var n = vehicles.Count;
             int iLeadRight;
-            if (vehicles[i].lane < path.lanesCount - 1) {
+            if (vehicles[i].lane < mainPath.lanesCount - 1) {
                 iLeadRight = (i == 0) ? n - 1 : i - 1;
                 var success = ((i == iLeadRight) || (vehicles[iLeadRight].lane == vehicles[i].lane + 1));
                 while (!success) {
@@ -173,7 +183,7 @@ namespace CivilFX.TrafficV3
         {
             var n = vehicles.Count;
             int iLagRight;
-            if (vehicles[i].lane < path.lanesCount - 1) {
+            if (vehicles[i].lane < mainPath.lanesCount - 1) {
                 iLagRight = (i == n - 1) ? 0 : i + 1;
                 var success = ((i == iLagRight) || (vehicles[iLagRight].lane == vehicles[i].lane + 1));
                 while (!success) {
@@ -229,18 +239,22 @@ namespace CivilFX.TrafficV3
             //Debug.Log("DoChangesInDirection");
             var uminLC = 20f;
             var waitTime = 4f;
-            for (int i=0; i<vehicles.Count; i++) {
-                if (vehicles[i].u > uminLC) {
+            for (int i = 0; i < vehicles.Count; i++) {
+                if (!vehicles[i].isVirtual && vehicles[i].u > uminLC) {
                     // test if there is a target lane 
                     // and if last change is sufficiently long ago
-
+                    if (vehicles[i].debug) {
+                        Debug.Log("Enter LC");
+                    }
                     var newLane = (toRight) ? vehicles[i].lane + 1 : vehicles[i].lane - 1;
-                    var targetLaneExists = (newLane >= 0) && (newLane < path.lanesCount);
+                    var targetLaneExists = (newLane >= 0) && (newLane < mainPath.lanesCount);
                     var lastChangeSufficTimeAgo = (vehicles[i].dt_afterLC > waitTime)
                     && (vehicles[i].dt_lastPassiveLC > 0.2f * waitTime);
 
                     if (targetLaneExists && lastChangeSufficTimeAgo) {
-
+                        if (vehicles[i].debug) {
+                            Debug.Log("Enter Second LC");
+                        }
                         var iLead = vehicles[i].iLead;
                         var iLag = vehicles[i].iLag; // actually not used
                         var iLeadNew = (toRight) ? vehicles[i].iLeadRight : vehicles[i].iLeadLeft;
@@ -249,11 +263,16 @@ namespace CivilFX.TrafficV3
                         // check if also the new leader/follower did not change recently
 
                         //Debug.Log("iLeadNew="+iLeadNew+" dt_afterLC_iLeadNew="+vehicles[iLeadNew].dt_afterLC+" dt_afterLC_iLagNew="+vehicles[iLag].dt_afterLC); 
+                        if (vehicles[i].debug) {
+                            Debug.Log("iLead: " + iLead + "iLag: " + iLeadNew + "iLeadNew: " + iLagNew);
+                            Debug.Log("vehicles[iLeadNew].dt_afterLC: " + vehicles[iLeadNew].dt_afterLC);
+                            Debug.Log("vehicles[iLagNew].dt_afterLC:" + vehicles[iLagNew].dt_afterLC);
+                        }
 
                         if ((vehicles[i].id != 1) // not an ego-vehicle
-                       && (iLeadNew >= 0)       // target lane allowed (otherwise iLeadNew=-10)
-                       && (vehicles[iLeadNew].dt_afterLC > waitTime)  // lower time limit
-                       && (vehicles[iLagNew].dt_afterLC > waitTime)) { // for serial LC
+                            && (iLeadNew >= 0)       // target lane allowed (otherwise iLeadNew=-10)
+                            && (vehicles[iLeadNew].dt_afterLC > waitTime)  // lower time limit
+                            && (vehicles[iLagNew].dt_afterLC > waitTime)) { // for serial LC
 
                             //console.log("changeLanes: i=",i," cond 2 passed");
                             var acc = vehicles[i].acc;
@@ -298,11 +317,14 @@ namespace CivilFX.TrafficV3
                             //var log=true;
 
                             var MOBILOK = vehicles[i].LCModel.RealizeLaneChange(vrel, acc, accNew, accLagNew, toRight);
-
-
-                            var changeSuccessful =(sNew > 0) && (sLagNew > 0) && MOBILOK;
+                            var changeSuccessful = !vehicles[i].isVirtual && (sNew > 0) && (sLagNew > 0) && MOBILOK;
+                            if (vehicles[i].debug) {
+                                Debug.Log("! virtual: " + !vehicles[i].isVirtual + "sNew: " + sNew + "sLagNew: " + sLagNew + "MOBILOK: " + MOBILOK);
+                            }
                             if (changeSuccessful) {
-
+                                if (vehicles[i].debug) {
+                                    Debug.Log("Enter 3rd LC");
+                                }
                                 // do lane change in the direction toRight (left if toRight=0)
                                 //!! only regular lane changes within road; merging/diverging separately!
                                 //vehicles[i].currentVelocity = Vector3.zero;
@@ -334,6 +356,9 @@ namespace CivilFX.TrafficV3
         private void UpdateSpeedPositions(float dt)
         {
             foreach (var item in vehicles) {
+                if (item.isVirtual) {
+                    continue;
+                }
                 //Debug.Log("U before:" + item.u);
                 item.u += Mathf.Max(0, item.speed * dt + 0.5f * item.acc * dt * dt);
                 //Debug.Log("U After:" + item.u);
@@ -359,66 +384,32 @@ namespace CivilFX.TrafficV3
 
         private void UpdateBCUp()
         {
-            if (vehiclesWaiting.Count > 0) {
-                var newLane = vehicles[vehicles.Count - 1].lane + 1;
-                newLane %= path.lanesCount;
-                for (int i = vehicles.Count -2; i>=0; i--) {
-                    if (vehicles[i].lane == newLane) {
-                        if (vehicles[i].u > 10f) {
-                            var vehicle = vehiclesWaiting[0];
-                            vehiclesWaiting.RemoveAt(0);
-                            vehicle.gameObject.SetActive(true);
-                            var newSpeed = Utilities.Map(vehicles[i].u - vehicles[i].length, 0, 10, 0, 30);
-                            newSpeed = Mathf.Clamp(newSpeed, 0, 30f);
-                            vehicle.Init(newLane, newSpeed);
-                            vehicles.Add(vehicle);
-                            SortVehicles();
-                            UpdateEnvironment();
-                        }
-                        return;
-                    }
-                }
-
-            }
+            
         }
 
         private void UpdateFinalPositions()
         {
-            var numLanes = path.lanesCount;
+            var numLanes = mainPath.lanesCount;
 
             foreach (var item in vehicles) {
                 var centerStart = GetPositionFromLongitute(item.u);
                 var centerEnd = GetPositionFromLongitute(item.u + 10f);
 
                 var dir = (centerEnd - centerStart).normalized;
-                var right = Vector3.Cross(Vector3.up, dir) * path.calculatedWidth;
+                var right = Vector3.Cross(Vector3.up, dir) * mainPath.calculatedWidth;
                 var left = -right;
-                var seg = 1.0f / (path.lanesCount * 2);
-                seg = item.lane * (1f / path.lanesCount) + seg;
-                var pos = Vector3.Lerp(centerStart + left, centerStart + right, seg);
+                var seg = (2f * item.lane + 1f) / (2f * mainPath.lanesCount); //lerp value based on lane number               
+                var pos = Vector3.Lerp(centerStart + left, centerStart + right, seg); //actualy position based on lane number
                 var lookAt = Vector3.Lerp(centerEnd + left, centerEnd + right, seg) + (dir * 30f);
                 var duringLC = item.dt_afterLC < item.dt_LC;
-                if (item.debug) {
-                    Debug.Log("dt_afterLC: " + item.dt_afterLC + "dt_LC: " + item.dt_LC);
-                }
-                if (duringLC) {
-                    var currentPos = item.gameObject.transform.position;
-                    var fAhead = (pos - currentPos).magnitude;
-                    if (item.debug) {
-                        Debug.Log("fAhead:" + fAhead);
-                        var go = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                        go.transform.position = lookAt;
-                    }
-                    //pos = Vector3.Lerp(item.originalPos, pos, item.dt_afterLC / item.dt_LC);
-                    //pos = Vector3.SmoothDamp(currentPos, pos, ref item.currentVelocity, 0.3f);
-                    item.SetLookAt(lookAt);
-                    item.SetPositionForward(2);
-                    
-                } else {
-                    item.SetPosition(pos);
-                    item.SetLookAt(lookAt);
-                }
 
+                if (duringLC) {
+                    var oldSeg = (2f * item.laneOld + 1f) / (2f * mainPath.lanesCount);
+                    var oldPos = Vector3.Lerp(centerStart + left, centerStart + right, oldSeg);
+                    pos = Vector3.Lerp(oldPos, pos, item.dt_afterLC / item.dt_LC);
+                }
+                item.SetPosition(pos);
+                item.SetLookAt(lookAt);
                 //item.SetPosition(GetPositionFromLongitute(item.u));
                 //item.SetLookAt(GetPositionFromLongitute(item.u + 0.1f));
             }

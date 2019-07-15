@@ -67,7 +67,12 @@ namespace CivilFX.TrafficV3
                         currentProp.floatValue = so.FindProperty("widthPerLane").floatValue / 3.2808f * so.FindProperty("lanesCount").intValue;
                     }
                     recalculateWidth = false;
-                }
+                }               
+                EditorGUILayout.PropertyField(currentProp);
+
+                //path length
+                currentProp = so.FindProperty("pathLength");
+                currentProp.floatValue = _target.GetSplineBuilder(true).pathLength;
                 EditorGUILayout.PropertyField(currentProp);
             }
 
@@ -141,16 +146,6 @@ namespace CivilFX.TrafficV3
             if (e.type == EventType.KeyDown && e.keyCode == KeyCode.Space)
             {
                 ProjectNodes(_target.nodes);
-                /*
-                if (e.control)
-                {
-                    drawBorder = !drawBorder;
-                }
-                else
-                {
-                    projectNodesCount = ProjectNodes(_target.nodes);
-                }
-                */
             }
 
             //short cut to delete node
@@ -241,14 +236,33 @@ namespace CivilFX.TrafficV3
                         _target.nodes[i] = newPos;
                         //auto-adjust start controlled point (Begin)
                         if (i == 1) {
-                            _target.nodes[0] = newPos + (newPos - _target.nodes[2]);
+                            _target.nodes[0] = newPos + (newPos - _target.nodes[2]).normalized * 20f;
                         } else if (i == _target.nodes.Count - 2) {
                             //auto adjust end controlled point (End)
-                            _target.nodes[_target.nodes.Count - 1] = newPos + (newPos - _target.nodes[_target.nodes.Count - 3]);
+                            _target.nodes[_target.nodes.Count - 1] = newPos + (newPos - _target.nodes[_target.nodes.Count - 3]).normalized * 20f;
                         }
                     }
                 }
             }
+
+            //show length (if control is held) 
+            if (e.control) {
+                List<Vector3> nodes = new List<Vector3>();
+                SplineBuilder splineBuilder = _target.GetSplineBuilder();
+                var segmentation = 1.0f / 1000f;
+                var t = segmentation;
+                while (t < 1.0f) {
+                    nodes.Add(splineBuilder.getPoint(t));
+                    t += segmentation;
+                }
+                var index = LocateNearestNode(nodes, e.mousePosition);
+                var dis = 0f;
+                for (int i=1; i<index; i++) {
+                    dis += Vector3.Distance(nodes[i], nodes[i + 1]);
+                }
+                Handles.Label(nodes[index], dis.ToString(), labelStyle);
+            }
+
         }
 
         private int ProjectNodes(List<Vector3> nodes)

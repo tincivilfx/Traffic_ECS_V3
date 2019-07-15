@@ -14,10 +14,13 @@ namespace CivilFX.TrafficV3
         public int laneOld;
         public float speed;
         public string type;
+        public bool isVirtual;
 
         public int id = 200;
         public bool divergeAhead = false;
         public bool toRight = false;
+        public bool justMerged = false;
+        public bool fromRight = false;
 
         public float fracLaneOptical = 1;
 
@@ -39,6 +42,55 @@ namespace CivilFX.TrafficV3
         public LaneChangingModel LCModel;
 
         public bool debug;
+
+        public VehicleController()
+        {
+
+        }
+
+        public VehicleController(float _length, float _width, float _u, int _lane, float _speed, string _type)
+        {
+            length = _length; // car length[m]
+            width = _width;   // car width[m]
+            u = _u;           // long coordinate=arc length [m]
+            lane = _lane;     // integer-valued lane 0=leftmost
+            v = lane;        // lane coordinate (lateral, units of lane width), not speed!!
+            dvdt = 0;     // vehicle angle to road axis (for drawing purposes)
+            laneOld = lane;  // for logging and drawing vontinuous lat coords v
+            speed = _speed;
+            type = _type;
+
+            id = 200; // 
+
+
+            divergeAhead = false; // if true, the next diverge can/must be used
+            toRight = false; // set strong urge to toRight,!toRight IF divergeAhead
+
+            fracLaneOptical = 1; // slow optical LC over fracLaneOptical lanes
+ 
+
+            dt_LC = 4;
+            dt_afterLC = 10;
+            dt_lastPassiveLC = 10;
+            acc = 0;
+            iLead = -100;
+            iLag = -100;
+            //iLeadOld=-100; // necessary for update local environm after change
+            //iLagOld=-100; // necessary for update local environm after change
+
+            iLeadRight = -100;
+            iLeadLeft = -100;
+            iLagRight = -100;
+            iLagLeft = -100;
+            //iLeadRightOld=-100;
+            //iLeadLeftOld=-100;
+            //iLagRightOld=-100;
+            //iLagLeftOld=-100;
+
+            // just start values used for virtual vehicles
+            longModel = new ACC(20, 1.3f, 2, 1, 2);//IDM_v0,IDM_T,IDM_s0,IDM_a,IDM_b);
+            LCModel = new MOBIL(4, 20, 0.1f, 0.2f, 0.3f); //bSafe, bSafeMax, p, bThr, biasRight)
+        }
 
         public int CompareTo(VehicleController other)
         {

@@ -22,6 +22,8 @@ namespace CivilFX.TrafficV3
         [Tooltip("Width of all lanes; in meters")]
         public float calculatedWidth = 5.0f;
 
+        public float pathLength; //overall arc length
+
         [Range(1, 10)]
         public int lanesCount = 1;
         public int splineResolution = 30;
@@ -34,9 +36,9 @@ namespace CivilFX.TrafficV3
             return nodes.Count;
         }
 
-        public SplineBuilder GetSplineBuilder()
+        public SplineBuilder GetSplineBuilder(bool forceRebuild=false)
         {
-            if (splineBuilder == null)
+            if (forceRebuild || splineBuilder == null)
             {
                 splineBuilder = new SplineBuilder(this);
             }
@@ -132,11 +134,6 @@ namespace CivilFX.TrafficV3
                 }              
                 time += seg;
             }
-
-
-
-
-
 
             /*
             //draw rough lanes
