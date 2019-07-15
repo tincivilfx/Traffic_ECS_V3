@@ -1005,6 +1005,7 @@ MonoBehaviour:
   onRampPathObstacles:
   - {fileID: 1925667310}
   onRampPathVehiclesCount: 10
+  offRampPath: {fileID: 1796244099}
   longModelCar: {fileID: 11400000, guid: df2103459561448428e2e5c52f404974, type: 2}
   LCModelCar: {fileID: 11400000, guid: 82068d22fbfdd594282d9a4082ea70b3, type: 2}
   LCModelMandatoryRight: {fileID: 11400000, guid: 3246432f94a926145aede2a2e36104fe,
@@ -1726,12 +1727,12 @@ MonoBehaviour:
   unit: 1
   widthPerLane: 12
   calculatedWidth: 3.6576443
-  pathLength: 406.8594
+  pathLength: 406.86856
   lanesCount: 1
   splineResolution: 150
   nodes:
-  - {x: 13.152773, y: 3.6965325e-17, z: -1669.748}
-  - {x: 26.299444, y: 3.730518e-17, z: -1680.0327}
+  - {x: 6.5268993, y: 3.6964882e-17, z: -1673.6283}
+  - {x: 26.037548, y: 3.730518e-17, z: -1680.2483}
   - {x: 55.760956, y: 3.8892755e-17, z: -1768.692}
   - {x: -27.93837, y: 4.122889e-17, z: -1838.8969}
   - {x: -24.98717, y: 4.2171944e-17, z: -1947.1409}

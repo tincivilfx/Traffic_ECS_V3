@@ -37,6 +37,7 @@ namespace CivilFX.TrafficV3
             onRampPath.Init(prefabs, onRampPathVehiclesCount, onRampPathObstacles);
             onRampPath.SetModels(longModelCar, longModelCar, LCModelCar, LCModelCar, LCModelMandatoryRight, LCModelMandatoryLeft);
 
+            offRampPath.Init(prefabs, 0, null); //we dont want vehicles to respawn on this path
             offRampPath.SetModels(longModelCar, longModelCar, LCModelCar, LCModelCar, LCModelMandatoryRight, LCModelMandatoryLeft);
 
         }
@@ -67,6 +68,12 @@ namespace CivilFX.TrafficV3
 
             //offramp
             offRampPath.UpdateLastLCTimes(dt);
+            offRampPath.CalcAccelerations();
+            offRampPath.UpdateSpeedPositions(dt);
+            offRampPath.UpdateBCDown(waitingVehicles);
+            offRampPath.UpdateFinalPositions();
+
+            mainPath.MergeDiverge(offRampPath, -759.6795f, 759.6795f, 800f, false, true, true);
         }
     }
 }

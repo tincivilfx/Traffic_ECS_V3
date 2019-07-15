@@ -65,16 +65,16 @@ namespace CivilFX.TrafficV3
 
         public void AddObstacles(VehicleController[] obstacles)
         {
-            vehicles.AddRange(obstacles);
+            if (obstacles != null) {
+                vehicles.AddRange(obstacles);
+            }
         }
 
         private Vector3 GetPositionFromLongitute(float u)
         {
-            if (u < pathLength) {
-                return pathSpline.getPointOnPath(u / pathLength);
-            } else {
-                return pathSpline.getPointOnPath(1f);
-            }
+            float t = u / pathLength;
+            t = Mathf.Clamp01(t);
+            return pathSpline.getPointOnPath(t);
         }
 
         public void UpdateVehiclesModels(LaneChangingModel LCModel)
@@ -375,7 +375,7 @@ namespace CivilFX.TrafficV3
         public void UpdateBCDown(List<VehicleController> vehiclesWaiting)
         {
             //outflow
-            if (vehicles[0].u > pathLength) {
+            if (vehicles.Count > 0 && vehicles[0].u > pathLength) {
                 var vehicle = vehicles[0];
                 vehicles.RemoveAt(0);
                 vehicle.gameObject.SetActive(false);
