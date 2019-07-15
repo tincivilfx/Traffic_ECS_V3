@@ -71,9 +71,11 @@ namespace CivilFX.TrafficV3
             offRampPath.CalcAccelerations();
             offRampPath.UpdateSpeedPositions(dt);
             offRampPath.UpdateBCDown(waitingVehicles);
+
+
             offRampPath.UpdateFinalPositions();
 
-            mainPath.MergeDiverge(offRampPath, -759.6795f, 759.6795f, 800f, false, true, true);
+            //mainPath.MergeDiverge(offRampPath, -759.6795f, 759.6795f, 800f, false, true, true);
         }
     }
 }

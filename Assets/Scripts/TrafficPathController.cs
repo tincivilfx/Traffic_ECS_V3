@@ -21,8 +21,21 @@ namespace CivilFX.TrafficV3
         private LaneChangingModel LCModelMandatoryRight;
         private LaneChangingModel LCModelMandatoryLeft;
 
+        private VehicleController dummyLeader;
+        private VehicleController dummyFollower;
+
         public void Init(GameObject[] prefabs, int _vehiclesCount)
         {
+            //construct dummy vehicles
+            dummyLeader = transform.gameObject.AddComponent<VehicleController>();
+            dummyLeader.longModel = longModelCar;
+            dummyLeader.LCModel = LCModelCar;
+
+            dummyFollower = transform.gameObject.AddComponent<VehicleController>();
+            dummyFollower.longModel = longModelCar;
+            dummyFollower.LCModel = LCModelCar;
+
+            //
             pathSpline = path.GetSplineBuilder(true);
             pathLength = pathSpline.pathLength;
             vehiclesCount = _vehiclesCount;
@@ -431,7 +444,7 @@ namespace CivilFX.TrafficV3
                     var speedNew = Mathf.Min(longModelCar.v0, longModelCar.speedLimit, space / longModelCar.T);
                     var vehicle = vehiclesWaiting[0];
                     vehicle.gameObject.SetActive(true);
-                    vehicle.Init(lane, speedNew);
+                    vehicle.Renew(vehicle.length, vehicle.width, 0, lane, speedNew, "car");
                     vehiclesWaiting.Remove(vehicle);
                     vehicles.Add(vehicle);
                 }
@@ -501,12 +514,11 @@ namespace CivilFX.TrafficV3
 
                 var duLeader = 1000f; // initially big distances w/o interaction
                 var duFollower = -1000f;
-                var leaderNew = new VehicleController(0, 0, uNewBegin + 10000, targetLane, 0, "car");
-                leaderNew.longModel = longModelCar;
-                leaderNew.LCModel = LCModelCar;
-                var followerNew = new VehicleController(0, 0, uNewBegin - 10000, targetLane, 0, "car");
-                followerNew.longModel = longModelCar;
-                leaderNew.LCModel = LCModelCar;
+                var leaderNew = dummyLeader;
+                var followerNew = dummyFollower;
+
+                leaderNew.Renew(0, 0, uNewBegin + 10000, targetLane, 0, "car");
+                followerNew.Renew(0, 0, uNewBegin - 10000, targetLane, 0, "car");
 
                 // loop over originVehicles for merging veh candidates
                 for (var i = 0; (i < originVehicles.Count) && (!success); i++) {               

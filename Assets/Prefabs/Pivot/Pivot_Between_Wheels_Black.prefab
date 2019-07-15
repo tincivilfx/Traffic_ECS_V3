@@ -321,7 +321,7 @@ GameObject:
   - component: {fileID: 7973639034156897614}
   - component: {fileID: 2187537017681190538}
   m_Layer: 0
-  m_Name: Pivot_Between_Wheels
+  m_Name: Pivot_Between_Wheels_Black
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -402,7 +402,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d9ffcbc59d15d44d89968ed24343439, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  length: 4.84
+  length: 5
   width: 2.1
   u: 0
   lane: 0
@@ -411,9 +411,12 @@ MonoBehaviour:
   laneOld: 0
   speed: 30
   type: Car
+  isVirtual: 0
   id: 200
   divergeAhead: 0
   toRight: 0
+  justMerged: 0
+  fromRight: 0
   fracLaneOptical: 1
   dt_LC: 4
   dt_afterLC: 10
@@ -426,7 +429,11 @@ MonoBehaviour:
   iLagRight: -100
   iLagLeft: -100
   originalPos: {x: 0, y: 0, z: 0}
-  currentVelocity: {x: 0, y: 0, z: 0}
   longModel: {fileID: 11400000, guid: 75b6c524b9fd4a141a3874fdee872997, type: 2}
   LCModel: {fileID: 11400000, guid: 82068d22fbfdd594282d9a4082ea70b3, type: 2}
+  wheels:
+  - {fileID: 8252160343704934233}
+  - {fileID: 1193626160589975379}
+  - {fileID: 2049064881825608474}
+  - {fileID: 1612937865760783468}
   debug: 0

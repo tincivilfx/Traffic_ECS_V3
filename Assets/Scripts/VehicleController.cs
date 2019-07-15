@@ -37,18 +37,23 @@ namespace CivilFX.TrafficV3
         public int iLagLeft = -100;
 
         public Vector3 originalPos; //used to smoothdamp (before starting to LC)
-        public Vector3 currentVelocity;
+
         public CarFollowingModel longModel;
         public LaneChangingModel LCModel;
 
+
+        public Transform [] wheels;
+
         public bool debug;
 
-        public VehicleController()
-        {
+        private float rotationValue;
 
+        public int CompareTo(VehicleController other)
+        {
+            return other.u.CompareTo(u);
         }
 
-        public VehicleController(float _length, float _width, float _u, int _lane, float _speed, string _type)
+        public void Renew(float _length, float _width, float _u, int _lane, float _speed, string _type)
         {
             length = _length; // car length[m]
             width = _width;   // car width[m]
@@ -60,14 +65,14 @@ namespace CivilFX.TrafficV3
             speed = _speed;
             type = _type;
 
-            id = 200; // 
-
-
             divergeAhead = false; // if true, the next diverge can/must be used
             toRight = false; // set strong urge to toRight,!toRight IF divergeAhead
 
+            justMerged = false;
+            fromRight = false;
+
             fracLaneOptical = 1; // slow optical LC over fracLaneOptical lanes
- 
+            originalPos = Vector3.zero;
 
             dt_LC = 4;
             dt_afterLC = 10;
@@ -82,58 +87,21 @@ namespace CivilFX.TrafficV3
             iLeadLeft = -100;
             iLagRight = -100;
             iLagLeft = -100;
-            //iLeadRightOld=-100;
-            //iLeadLeftOld=-100;
-            //iLagRightOld=-100;
-            //iLagLeftOld=-100;
-
-            // just start values used for virtual vehicles
-            longModel = new ACC(20, 1.3f, 2, 1, 2);//IDM_v0,IDM_T,IDM_s0,IDM_a,IDM_b);
-            LCModel = new MOBIL(4, 20, 0.1f, 0.2f, 0.3f); //bSafe, bSafeMax, p, bThr, biasRight)
         }
 
-        public int CompareTo(VehicleController other)
-        {
-            return other.u.CompareTo(u);
-        }
-
-        public void Init(int newLane, float newSpeed)
-        {
-            Reset();
-            lane = newLane;
-            speed = newSpeed;
-        }
-
-        public void Reset()
-        {
-            u = 0;
-            lane = 0;
-            laneOld = 0;
-            speed = 30;
-
-            dt_LC = 4;
-            dt_afterLC = 10;
-            dt_lastPassiveLC = 10;
-
-            acc = 0;
-
-
-            iLead = -100;
-            iLag = -100;
-            iLeadRight = -100;
-            iLeadLeft = -100;
-            iLagRight = -100;
-            iLagLeft = -100;
-        }
         public void SetPosition(Vector3 pos)
         {
             transform.position = pos;
+
+            foreach (var item in wheels) {
+                Vector3 rot = Vector3.zero;
+                rot.x = rotationValue;
+                item.localEulerAngles = rot;
+                rotationValue += 90.0f * (360.0f / 60.0f) * 0.002f * speed;
+            }
+
         }
 
-        public void SetPositionForward(float f)
-        {
-            transform.position += transform.forward * f;
-        }
 
         public void SetLookAt(Vector3 pos)
         {
