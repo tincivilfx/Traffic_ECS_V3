@@ -53,10 +53,11 @@ namespace CivilFX.TrafficV3
             return other.u.CompareTo(u);
         }
 
-        public void Renew(float _length, float _width, float _u, int _lane, float _speed, string _type)
+        public void Renew(float _u, int _lane, float _speed, string _type)
         {
-            length = _length; // car length[m]
-            width = _width;   // car width[m]
+
+            //length = _length; // car length[m]
+            //width = _width;   // car width[m]
             u = _u;           // long coordinate=arc length [m]
             lane = _lane;     // integer-valued lane 0=leftmost
             v = lane;        // lane coordinate (lateral, units of lane width), not speed!!

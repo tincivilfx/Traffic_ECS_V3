@@ -5,6 +5,7 @@ using UnityEditor;
 
 namespace CivilFX.TrafficV3
 {
+    [CanEditMultipleObjects]
     [CustomEditor(typeof(TrafficPath))]
     public class TrafficPathEditor : Editor
     {
@@ -252,20 +253,26 @@ namespace CivilFX.TrafficV3
 
             //show length (if control is held) 
             if (e.control) {
-                List<Vector3> nodes = new List<Vector3>();
-                SplineBuilder splineBuilder = _target.GetSplineBuilder();
-                var segmentation = 1.0f / 1000f;
-                var t = segmentation;
-                while (t < 1.0f) {
-                    nodes.Add(splineBuilder.getPoint(t));
-                    t += segmentation;
+                foreach (var item in Selection.gameObjects) {
+                    var script = item.GetComponent<TrafficPath>();
+                    if (script != null) {
+                        List<Vector3> nodes = new List<Vector3>();
+                        SplineBuilder splineBuilder = script.GetSplineBuilder();
+                        var segmentation = 1.0f / 1000f;
+                        var t = segmentation;
+                        while (t < 1.0f) {
+                            nodes.Add(splineBuilder.getPoint(t));
+                            t += segmentation;
+                        }
+                        var index = LocateNearestNode(nodes, e.mousePosition);
+                        var dis = 0f;
+                        for (int i = 1; i < index; i++) {
+                            dis += Vector3.Distance(nodes[i], nodes[i + 1]);
+                        }
+                        Handles.Label(nodes[index], dis.ToString(), labelStyle);
+                    }
                 }
-                var index = LocateNearestNode(nodes, e.mousePosition);
-                var dis = 0f;
-                for (int i=1; i<index; i++) {
-                    dis += Vector3.Distance(nodes[i], nodes[i + 1]);
-                }
-                Handles.Label(nodes[index], dis.ToString(), labelStyle);
+
             }
 
         }

@@ -26,6 +26,7 @@ namespace CivilFX.TrafficV3
 
         public void Init(GameObject[] prefabs, int _vehiclesCount)
         {
+            Debug.Log("Init vehicles for path: " + gameObject.name);
             //construct dummy vehicles
             dummyLeader = transform.gameObject.AddComponent<VehicleController>();
             dummyLeader.longModel = longModelCar;
@@ -444,7 +445,7 @@ namespace CivilFX.TrafficV3
                     var speedNew = Mathf.Min(longModelCar.v0, longModelCar.speedLimit, space / longModelCar.T);
                     var vehicle = vehiclesWaiting[0];
                     vehicle.gameObject.SetActive(true);
-                    vehicle.Renew(vehicle.length, vehicle.width, 0, lane, speedNew, "car");
+                    vehicle.Renew(0, lane, speedNew, "car");
                     vehiclesWaiting.Remove(vehicle);
                     vehicles.Add(vehicle);
                 }
@@ -480,7 +481,7 @@ namespace CivilFX.TrafficV3
             var uNewEnd = uEnd + offset;
             var originLane = (toRight) ? path.lanesCount - 1 : 0;
             var targetLane = (toRight) ? 0 : newPath.path.lanesCount - 1;
-            var originVehicles = this.GetTargetNeighbourhood(
+            var originVehicles = GetTargetNeighbourhood(
             uBegin - paddingLTC, uEnd, originLane); // padding only for LT coupling!
 
             var targetVehicles = newPath.GetTargetNeighbourhood(
@@ -489,7 +490,10 @@ namespace CivilFX.TrafficV3
             var iMerge = 0; // candidate of the originVehicles neighbourhood
             var uTarget = 0f;  // long. coordinate of this vehicle on the orig road
 
-
+            if (path.gameObject.name.Equals("U_Path_OnRamp_2")) {
+                Debug.Log("originVehicles: " + originVehicles.Count);
+                Debug.Log("targetVehicles: " + targetVehicles.Count);
+            }
             // (2) select changing vehicle (if any): 
             // only one at each calling; the first vehicle has priority!
 
@@ -502,10 +506,11 @@ namespace CivilFX.TrafficV3
                   && (originVehicles[0].u >= uBegin) // otherwise only LT coupl
                   && (loc_ignoreRoute || originVehicles[0].divergeAhead));
             //Debug.Log("success: " + success);
-            if (success) { iMerge = 0; uTarget = originVehicles[0].u + offset; }
+            if (success) {
+                iMerge = 0; uTarget = originVehicles[0].u + offset;
+            }
 
             // (2b) otherwise select the first suitable candidate of originVehicles
-
             else if (originVehicles.Count > 0) {
 
                 // initializing of interacting partners with virtual vehicles
@@ -517,8 +522,8 @@ namespace CivilFX.TrafficV3
                 var leaderNew = dummyLeader;
                 var followerNew = dummyFollower;
 
-                leaderNew.Renew(0, 0, uNewBegin + 10000, targetLane, 0, "car");
-                followerNew.Renew(0, 0, uNewBegin - 10000, targetLane, 0, "car");
+                leaderNew.Renew(uNewBegin + 10000, targetLane, 0, "car");
+                followerNew.Renew(uNewBegin - 10000, targetLane, 0, "car");
 
                 // loop over originVehicles for merging veh candidates
                 for (var i = 0; (i < originVehicles.Count) && (!success); i++) {               
@@ -548,7 +553,9 @@ namespace CivilFX.TrafficV3
                             }
                         }
 
-
+                        if (jTarget == -1) {
+                            return;
+                        }
                         // get input variables for MOBIL
                         // qualifiers for state var s,acc: 
                         // [nothing] own vehicle before LC
@@ -579,8 +586,6 @@ namespace CivilFX.TrafficV3
                         sLagNew, speedLagNew, speed, accNew);
 
 
-
-
                         // MOBIL decisions
                         var prio_OK = (!loc_prioOther) || loc_prioOwn
                         || (!LCModel.RespectPriority(accLag, accLagNew));
@@ -605,7 +610,7 @@ namespace CivilFX.TrafficV3
 
 
             if (isMerge && loc_prioOwn) {
-
+                Debug.Log("Enter here");
                 // (3a) determine stop line such that there cannot be a grid lock for any
                 // merging vehicle, particularly the longest vehicle
 
@@ -626,7 +631,9 @@ namespace CivilFX.TrafficV3
 
                     var iLast = -1;
                     for (var i = originVehicles.Count - 1; (i >= 0) && (iLast == -1); i--) {
-                        if (!originVehicles[i].isVirtual) { iLast = i; }
+                        if (!originVehicles[i].isVirtual) {
+                            iLast = i;
+                        }
                     }
 
                     if ((iLast > -1) && !targetVehicles[j].isVirtual) {
@@ -662,6 +669,7 @@ namespace CivilFX.TrafficV3
                 
                 var changingVeh = vehicles[iOrig]; //originVehicles[iMerge];
                 var vOld = (toRight) ? targetLane - 1 : targetLane + 1; // rel. to NEW road
+                
                 changingVeh.fromRight = !toRight;
                 changingVeh.justMerged = true;
                 changingVeh.u += offset;
@@ -673,10 +681,9 @@ namespace CivilFX.TrafficV3
 
 
                 //####################################################################
-                vehicles.RemoveRange(iOrig, 1);// removes chg veh from orig.
+                vehicles.Remove(changingVeh);// removes chg veh from orig.
                 newPath.vehicles.Add(changingVeh); // appends changingVeh at last pos;
-                                               //####################################################################
-
+                                                   //####################################################################
                 //newPath.nveh=newPath.veh.length;
                 newPath.SortVehicles();       // move the mergingVeh at correct position
                 newPath.UpdateEnvironment(); // and provide updated neighbors
@@ -732,9 +739,21 @@ namespace CivilFX.TrafficV3
                         var newWidth = path.unit == Unit.Meters ? path.widthPerLane * (path.lanesCount + 2) : path.widthPerLane * (path.lanesCount + 2) / 3.2808f;
                         right = Vector3.Cross(Vector3.up, dir) * newWidth;
                         left = -right;
-                        var oldSeg = (2f * item.lane + 1f) / (2f * (path.lanesCount + 2));
+                        var oldSeg = 0f;
+                        if (item.fromRight) {
+                            oldSeg = (2f * (item.laneOld + 1) + 1f) / (2f * (path.lanesCount + 2));
+                        } else {                       
+                            oldSeg = (2f * item.lane + 1f) / (2f * (path.lanesCount + 2));
+                        }
                         var oldPos = Vector3.Lerp(centerStart + left, centerStart + right, oldSeg);
+                        if (item.debug) {
+                            var go = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                            go.transform.position = pos;
+                            go = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                            go.transform.position = oldPos;
+                        }
                         pos = Vector3.Lerp(oldPos, pos, item.dt_afterLC / item.dt_LC);
+
                     }
                 } else {
                     item.justMerged = false;
