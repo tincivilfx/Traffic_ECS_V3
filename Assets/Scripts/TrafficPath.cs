@@ -15,6 +15,13 @@ namespace CivilFX.TrafficV3
         Feet
     }
 
+    [System.Serializable]
+    public struct CutSegment
+    {
+        public float u;
+        public int lane;
+    }
+
     public class TrafficPath : MonoBehaviour
     {
         public Unit unit = Unit.Meters;
@@ -28,6 +35,8 @@ namespace CivilFX.TrafficV3
         public int lanesCount = 1;
         public int splineResolution = 30;
         public List<Vector3> nodes;
+
+        public CutSegment [] cutSegments;
 
         private SplineBuilder splineBuilder;
 
@@ -93,6 +102,8 @@ namespace CivilFX.TrafficV3
                 //draw most outter lines
                 Gizmos.DrawLine((Vector3)(centerStart + left), centerEnd + left); // E |
                 Gizmos.DrawLine((Vector3)(centerStart + right), centerEnd + right); // | E
+
+
 
                 centerStart = centerEnd;
                 t += segmentation;

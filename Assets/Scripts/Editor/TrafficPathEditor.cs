@@ -136,6 +136,11 @@ namespace CivilFX.TrafficV3
                 }
                 EditorGUI.indentLevel--;
             }
+
+            //cut segments;
+            currentProp = so.FindProperty("cutSegments");
+            EditorGUILayout.PropertyField(currentProp, true);
+
             so.ApplyModifiedProperties();
         }
 

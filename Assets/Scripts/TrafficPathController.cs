@@ -285,7 +285,7 @@ namespace CivilFX.TrafficV3
                             Debug.Log("vehicles[iLagNew].dt_afterLC:" + vehicles[iLagNew].dt_afterLC);
                         }
 
-                        if ((vehicles[i].id != 1) // not an ego-vehicle
+                        if (true /*(vehicles[i].id != 1)*/ // not an ego-vehicle
                             && (iLeadNew >= 0)       // target lane allowed (otherwise iLeadNew=-10)
                             && (vehicles[iLeadNew].dt_afterLC > waitTime)  // lower time limit
                             && (vehicles[iLagNew].dt_afterLC > waitTime)) { // for serial LC
@@ -680,6 +680,9 @@ namespace CivilFX.TrafficV3
                 //newPath.nveh=newPath.veh.length;
                 newPath.SortVehicles();       // move the mergingVeh at correct position
                 newPath.UpdateEnvironment(); // and provide updated neighbors
+
+                this.SortVehicles();
+                this.UpdateEnvironment();
             }// end do the actual merging
         }
 
@@ -694,9 +697,11 @@ namespace CivilFX.TrafficV3
                         iTargetFirst = i;
                         firstTime = false;
                     }
+                    
                     targets.Add(vehicles[i]);
                 }
             }
+            targets.Sort();
             return targets;
         }
 
@@ -714,7 +719,7 @@ namespace CivilFX.TrafficV3
                 var left = -right;
                 var seg = (2f * item.lane + 1f) / (2f * path.lanesCount); //lerp value based on lane number               
                 var pos = Vector3.Lerp(centerStart + left, centerStart + right, seg); //actualy position based on lane number
-                var lookAt = Vector3.Lerp(centerEnd + left, centerEnd + right, seg) + (dir * 30f);
+                var lookAt = Vector3.Lerp(centerEnd + left, centerEnd + right, seg) + (dir * 10f);
                 var duringLC = item.dt_afterLC < item.dt_LC;
 
                 if (duringLC) {
