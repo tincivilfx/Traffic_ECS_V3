@@ -455,7 +455,7 @@ namespace CivilFX.TrafficV3
         public void MergeDiverge(TrafficPathController newPath, float offset, float uBegin, float uEnd, bool isMerge, bool toRight,
             bool ignoreRoute=false, bool prioOther=false, bool prioOwn=false)
         {
-            var padding = 0; // visib. extension for orig drivers to target vehs
+            var padding = 20; // visib. extension for orig drivers to target vehs
             var paddingLTC =           // visib. extension for target drivers to orig vehs
             (isMerge && prioOwn) ? 20 : 0;
 
@@ -490,10 +490,6 @@ namespace CivilFX.TrafficV3
             var iMerge = 0; // candidate of the originVehicles neighbourhood
             var uTarget = 0f;  // long. coordinate of this vehicle on the orig road
 
-            if (path.gameObject.name.Equals("U_Path_OnRamp_2")) {
-                Debug.Log("originVehicles: " + originVehicles.Count);
-                Debug.Log("targetVehicles: " + targetVehicles.Count);
-            }
             // (2) select changing vehicle (if any): 
             // only one at each calling; the first vehicle has priority!
 
@@ -541,10 +537,15 @@ namespace CivilFX.TrafficV3
                         // (that is guaranteed because of the inner-loop conditions),
                         //  none may be eligible
                         // therefore check for jTarget==-1
-
+                        if (originVehicles[i].debug) {
+                            Debug.Log("originVehicles: " + originVehicles[i].id + "uTarget: " + uTarget);
+                        }
                         var jTarget = -1; ;
                         for (var j = 0; j < targetVehicles.Count; j++) {
                             var du = targetVehicles[j].u - uTarget;
+                            if (originVehicles[i].debug) {
+                                Debug.Log("targetVehicles: " + targetVehicles[j].id + "du: " + du + "j: " + j);
+                            }
                             if ((du > 0) && (du < duLeader)) {
                                 duLeader = du; leaderNew = targetVehicles[j];
                             }
@@ -552,10 +553,7 @@ namespace CivilFX.TrafficV3
                                 jTarget = j; duFollower = du; followerNew = targetVehicles[j];
                             }
                         }
-
-                        if (jTarget == -1) {
-                            return;
-                        }
+                        Debug.Log(jTarget);
                         // get input variables for MOBIL
                         // qualifiers for state var s,acc: 
                         // [nothing] own vehicle before LC
@@ -592,12 +590,13 @@ namespace CivilFX.TrafficV3
 
                         var MOBILOK = LCModel.RealizeLaneChange(
                         vrel, acc, accNew, accLagNew, toRight);
-
                         success = prio_OK && inChangeRegion && MOBILOK
                         && (!originVehicles[i].isVirtual)
                         && (sNew > 0) && (sLagNew > 0);
 
-                        if (success) { iMerge = i; }
+                        if (success) {
+                            iMerge = i;
+                        }
                        
                     } // !obstacle
 
@@ -666,7 +665,7 @@ namespace CivilFX.TrafficV3
                 //originVehicles[iMerge]=veh[iMerge+this.iTargetFirst] 
 
                 var iOrig = iMerge + iTargetFirst;
-                
+                //Debug.Log(vehicles.Count + ":" + iOrig);
                 var changingVeh = vehicles[iOrig]; //originVehicles[iMerge];
                 var vOld = (toRight) ? targetLane - 1 : targetLane + 1; // rel. to NEW road
                 
