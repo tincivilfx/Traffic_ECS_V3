@@ -453,17 +453,9 @@ namespace CivilFX.TrafficV3
         }
 
         public void MergeDiverge(TrafficPathController newPath, float offset, float uBegin, float uEnd, bool isMerge, bool toRight,
+            int targetLane = -1,
             bool ignoreRoute=false, bool prioOther=false, bool prioOwn=false)
         {
-            var rand = Random.Range(0, 100);
-            if (rand < 98) {
-                Debug.Log("Not doing it");
-                return;
-            } else {
-                Debug.Log("Doing it");
-            }
-
-
             var padding = 20; // visib. extension for orig drivers to target vehs
             var paddingLTC =           // visib. extension for target drivers to orig vehs
             (isMerge && prioOwn) ? 20 : 0;
@@ -489,7 +481,9 @@ namespace CivilFX.TrafficV3
             var uNewBegin = uBegin + offset;
             var uNewEnd = uEnd + offset;
             var originLane = (toRight) ? path.lanesCount - 1 : 0;
-            var targetLane = (toRight) ? 0 : newPath.path.lanesCount - 1;
+            if (targetLane == -1) {
+                targetLane = (toRight) ? 0 : newPath.path.lanesCount - 1;
+            }
             var originVehicles = GetTargetNeighbourhood(
             uBegin - paddingLTC, uEnd, originLane); // padding only for LT coupling!
 

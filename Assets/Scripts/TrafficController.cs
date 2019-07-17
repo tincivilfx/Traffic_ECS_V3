@@ -9,6 +9,7 @@ namespace CivilFX.TrafficV3
     public class RampInfo
     {
         public TrafficPathController newPath;
+        public int targetLane = -1;
         public float offset;
         public float umin;
         public float umax;
@@ -75,7 +76,7 @@ namespace CivilFX.TrafficV3
                 }
                 //merge/diverse
                 foreach (var item2 in item.rampInfos) {
-                    item.path.MergeDiverge(item2.newPath, item2.offset, item2.umin, item2.umax, item2.isMerge, item2.toRight, true);
+                    item.path.MergeDiverge(item2.newPath, item2.offset, item2.umin, item2.umax, item2.isMerge, item2.toRight, item2.targetLane ,true);
                 }
                 item.path.UpdateFinalPositions();
 

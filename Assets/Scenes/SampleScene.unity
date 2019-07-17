@@ -20,11 +20,11 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
-  m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
+  m_AmbientSkyColor: {r: 0.8490566, g: 0.8490566, b: 0.8490566, a: 1}
+  m_AmbientEquatorColor: {r: 0.17524031, g: 0.19462444, b: 0.20754719, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 0
+  m_AmbientMode: 1
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
@@ -588,8 +588,8 @@ Light:
   m_Enabled: 1
   serializedVersion: 9
   m_Type: 1
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 1
+  m_Color: {r: 1, g: 0.8898988, b: 0.5896226, a: 1}
+  m_Intensity: 1.52
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -1080,6 +1080,7 @@ MonoBehaviour:
     allowDespawning: 0
     rampInfos:
     - newPath: {fileID: 1532633760}
+      targetLane: -1
       offset: 34.5326
       umin: 148.2116
       umax: 243.3057
@@ -1094,6 +1095,7 @@ MonoBehaviour:
     allowDespawning: 0
     rampInfos:
     - newPath: {fileID: 1532633760}
+      targetLane: -1
       offset: 478.457
       umin: 526.588
       umax: 589.5271
@@ -1919,18 +1921,19 @@ MonoBehaviour:
   unit: 1
   widthPerLane: 4.66
   calculatedWidth: 1.4203851
-  pathLength: 125.244576
+  pathLength: 141.95241
   lanesCount: 1
-  splineResolution: 30
+  splineResolution: 150
   splineColor: {r: 0.05260229, g: 1, b: 0, a: 1}
   nodes:
-  - {x: -65.00198, y: -0.15241656, z: 137.79422}
-  - {x: -56.42775, y: -0.15241446, z: 119.72539}
-  - {x: -35.111, y: -0.15240921, z: 75.01032}
-  - {x: -23.61687, y: -0.15240641, z: 51.456745}
-  - {x: -13.249761, y: -0.15240361, z: 26.884693}
-  - {x: -25.18489, y: -0.15240161, z: 8.131008}
-  - {x: -35.92302, y: -0.15239981, z: -8.741827}
+  - {x: -65.002, y: -0.15241721, z: 137.79425}
+  - {x: -56.42776, y: -0.15241623, z: 119.725426}
+  - {x: -35.111008, y: -0.15240893, z: 75.01034}
+  - {x: -23.616873, y: -0.15240613, z: 51.456757}
+  - {x: -13.585108, y: -0.15240324, z: 27.222591}
+  - {x: -24.178627, y: -0.15240121, z: 10.28265}
+  - {x: -42.965134, y: -0.15240104, z: 9.138248}
+  - {x: -54.747192, y: -0.15240087, z: 10.797197}
   cutSegments: []
 --- !u!1 &1796244098
 GameObject:
@@ -2220,6 +2223,7 @@ MonoBehaviour:
     allowDespawning: 1
     rampInfos:
     - newPath: {fileID: 1729544867}
+      targetLane: -1
       offset: -44.665302
       umin: 48.81654
       umax: 138.9022
@@ -2233,9 +2237,10 @@ MonoBehaviour:
     allowDespawning: 0
     rampInfos:
     - newPath: {fileID: 1449061889}
-      offset: 176.8199
-      umin: 122.371
-      umax: 125
+      targetLane: 1
+      offset: 176.515
+      umin: 131
+      umax: 141
       isMerge: 1
       toRight: 0
   - path: {fileID: 1449061889}
