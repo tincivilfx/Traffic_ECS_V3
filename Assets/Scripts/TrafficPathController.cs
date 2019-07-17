@@ -455,6 +455,15 @@ namespace CivilFX.TrafficV3
         public void MergeDiverge(TrafficPathController newPath, float offset, float uBegin, float uEnd, bool isMerge, bool toRight,
             bool ignoreRoute=false, bool prioOther=false, bool prioOwn=false)
         {
+            var rand = Random.Range(0, 100);
+            if (rand < 98) {
+                Debug.Log("Not doing it");
+                return;
+            } else {
+                Debug.Log("Doing it");
+            }
+
+
             var padding = 20; // visib. extension for orig drivers to target vehs
             var paddingLTC =           // visib. extension for target drivers to orig vehs
             (isMerge && prioOwn) ? 20 : 0;
@@ -486,7 +495,6 @@ namespace CivilFX.TrafficV3
 
             var targetVehicles = newPath.GetTargetNeighbourhood(
             uNewBegin - padding, uNewEnd + padding, targetLane);
-
             var iMerge = 0; // candidate of the originVehicles neighbourhood
             var uTarget = 0f;  // long. coordinate of this vehicle on the orig road
 
@@ -537,15 +545,9 @@ namespace CivilFX.TrafficV3
                         // (that is guaranteed because of the inner-loop conditions),
                         //  none may be eligible
                         // therefore check for jTarget==-1
-                        if (originVehicles[i].debug) {
-                            Debug.Log("originVehicles: " + originVehicles[i].id + "uTarget: " + uTarget);
-                        }
                         var jTarget = -1; ;
                         for (var j = 0; j < targetVehicles.Count; j++) {
                             var du = targetVehicles[j].u - uTarget;
-                            if (originVehicles[i].debug) {
-                                Debug.Log("targetVehicles: " + targetVehicles[j].id + "du: " + du + "j: " + j);
-                            }
                             if ((du > 0) && (du < duLeader)) {
                                 duLeader = du; leaderNew = targetVehicles[j];
                             }
@@ -553,7 +555,7 @@ namespace CivilFX.TrafficV3
                                 jTarget = j; duFollower = du; followerNew = targetVehicles[j];
                             }
                         }
-                        Debug.Log(jTarget);
+
                         // get input variables for MOBIL
                         // qualifiers for state var s,acc: 
                         // [nothing] own vehicle before LC
@@ -689,6 +691,7 @@ namespace CivilFX.TrafficV3
 
                 this.SortVehicles();
                 this.UpdateEnvironment();
+                Debug.Log("Scuees merging");
             }// end do the actual merging
         }
 

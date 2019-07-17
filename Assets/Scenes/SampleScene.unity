@@ -333,7 +333,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!64 &405230996
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -401,8 +401,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 405230995}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1000, y: 1, z: 1000}
+  m_LocalPosition: {x: 0, y: 0, z: -1955}
+  m_LocalScale: {x: 100, y: 1, z: 100}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -643,8 +643,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalRotation: {x: 0.3531291, y: 0.600827, z: -0.33440346, w: 0.634414}
+  m_LocalPosition: {x: -816.8884, y: 1426.0214, z: -1878.9443}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -975,8 +975,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: -0.0047137737, y: -0.96094537, z: 0.27621537, w: -0.016333818}
-  m_LocalPosition: {x: -31.74235, y: 48.104828, z: 159.39825}
+  m_LocalRotation: {x: 0.03505242, y: 0.9299798, z: -0.354187, w: 0.09198109}
+  m_LocalPosition: {x: -72.77448, y: 109.81726, z: 203.11414}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1028,7 +1028,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1290150231
 Transform:
   m_ObjectHideFlags: 0
@@ -1056,15 +1056,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabs:
-  - {fileID: 8544692403532882322, guid: 255232b2dba47674f9e852a089601141, type: 3}
-  - {fileID: 8544692403532882322, guid: 44ad2853590086e44bf74a8267cb5d2a, type: 3}
-  - {fileID: 8544692403532882322, guid: afbd8976b6b2ad744bc0fa3f70758b64, type: 3}
-  - {fileID: 8544692403532882322, guid: dd538bbfb99708647afa0f47f33ddf8d, type: 3}
-  - {fileID: 8544692403532882322, guid: cba49bb19020b014bb02ad286a750dee, type: 3}
+  - {fileID: 7616142016860174168, guid: 31e9e51ce590791469b466476ede62a0, type: 3}
+  - {fileID: 6276866508295909166, guid: caf43a538feed564e8c194762c594002, type: 3}
+  - {fileID: 819888134194365870, guid: 8acf6d3b4e480f64085d5fabe521b751, type: 3}
+  - {fileID: 6835335232393431909, guid: 852a94b3b37e1e04fb2a2c130f20fc69, type: 3}
+  - {fileID: 6348043879119343944, guid: 99caf13462aca6244bad889435a7c426, type: 3}
   pathInfos:
   - path: {fileID: 1532633760}
     obstacles: []
-    vehiclesCount: 100
+    vehiclesCount: 200
     allowLaneChaning: 1
     allowRespawning: 1
     rampInfos: []
@@ -1094,18 +1094,6 @@ MonoBehaviour:
       umax: 589.5271
       isMerge: 1
       toRight: 0
-  mainPath: {fileID: 1532633760}
-  mainPathObstacles: []
-  mainPathVehiclesCount: 100
-  onRampPath: {fileID: 51345177}
-  onRampPathObstacles:
-  - {fileID: 1925667310}
-  onRampPathVehiclesCount: 10
-  onRampPath2: {fileID: 1796244099}
-  onRampPath2Obstacles:
-  - {fileID: 268011097}
-  onRampPath2VehiclesCount: 10
-  offRampPath: {fileID: 0}
   longModelCar: {fileID: 11400000, guid: df2103459561448428e2e5c52f404974, type: 2}
   LCModelCar: {fileID: 11400000, guid: 82068d22fbfdd594282d9a4082ea70b3, type: 2}
   LCModelMandatoryRight: {fileID: 11400000, guid: 3246432f94a926145aede2a2e36104fe,
@@ -1784,6 +1772,80 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1728447986}
   m_CullTransparentMesh: 0
+--- !u!1 &1729544865
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1729544866}
+  - component: {fileID: 1729544868}
+  - component: {fileID: 1729544867}
+  m_Layer: 0
+  m_Name: Sahara EB-RT
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1729544866
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1729544865}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -32.51, y: -47.282, z: -0.57}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2069586910}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1729544867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1729544865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e9d157346b7b3a4f98fc0b6ac864126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  path: {fileID: 1729544868}
+  vehicles: []
+--- !u!114 &1729544868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1729544865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a371fb8d55873c478e83bac7aca0cb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unit: 1
+  widthPerLane: 4.66
+  calculatedWidth: 1.4203851
+  pathLength: 138.92213
+  lanesCount: 1
+  splineResolution: 30
+  nodes:
+  - {x: -65.00198, y: -0.15241656, z: 137.79422}
+  - {x: -56.42775, y: -0.15241446, z: 119.72539}
+  - {x: -35.111, y: -0.15240921, z: 75.01032}
+  - {x: -23.61687, y: -0.15240641, z: 51.456745}
+  - {x: -13.249761, y: -0.15240361, z: 26.884693}
+  - {x: -22.626455, y: -0.15240161, z: 10.939719}
+  - {x: -39.37166, y: -0.15239961, z: 8.214264}
+  - {x: -59.019516, y: -0.15239722, z: 4.4777384}
+  cutSegments: []
 --- !u!1 &1796244098
 GameObject:
   m_ObjectHideFlags: 0
@@ -2029,7 +2091,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2038944721
 Transform:
   m_ObjectHideFlags: 0
@@ -2057,24 +2119,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabs:
-  - {fileID: 8544692403532882322, guid: 255232b2dba47674f9e852a089601141, type: 3}
-  - {fileID: 8544692403532882322, guid: 44ad2853590086e44bf74a8267cb5d2a, type: 3}
-  - {fileID: 8544692403532882322, guid: afbd8976b6b2ad744bc0fa3f70758b64, type: 3}
-  - {fileID: 8544692403532882322, guid: dd538bbfb99708647afa0f47f33ddf8d, type: 3}
-  - {fileID: 8544692403532882322, guid: cba49bb19020b014bb02ad286a750dee, type: 3}
-  pathInfos: []
-  mainPath: {fileID: 1532633760}
-  mainPathObstacles: []
-  mainPathVehiclesCount: 100
-  onRampPath: {fileID: 51345177}
-  onRampPathObstacles:
-  - {fileID: 1925667310}
-  onRampPathVehiclesCount: 10
-  onRampPath2: {fileID: 1796244099}
-  onRampPath2Obstacles:
-  - {fileID: 268011097}
-  onRampPath2VehiclesCount: 10
-  offRampPath: {fileID: 0}
+  - {fileID: 6348043879119343944, guid: 99caf13462aca6244bad889435a7c426, type: 3}
+  - {fileID: 7616142016860174168, guid: 31e9e51ce590791469b466476ede62a0, type: 3}
+  - {fileID: 6276866508295909166, guid: caf43a538feed564e8c194762c594002, type: 3}
+  - {fileID: 819888134194365870, guid: 8acf6d3b4e480f64085d5fabe521b751, type: 3}
+  - {fileID: 6835335232393431909, guid: 852a94b3b37e1e04fb2a2c130f20fc69, type: 3}
+  pathInfos:
+  - path: {fileID: 615305933}
+    obstacles: []
+    vehiclesCount: 50
+    allowLaneChaning: 1
+    allowRespawning: 1
+    rampInfos:
+    - newPath: {fileID: 1729544867}
+      offset: -44.665302
+      umin: 48.81654
+      umax: 138.9022
+      isMerge: 0
+      toRight: 1
+  - path: {fileID: 1729544867}
+    obstacles: []
+    vehiclesCount: 0
+    allowLaneChaning: 0
+    allowRespawning: 0
+    rampInfos: []
   longModelCar: {fileID: 11400000, guid: df2103459561448428e2e5c52f404974, type: 2}
   LCModelCar: {fileID: 11400000, guid: 82068d22fbfdd594282d9a4082ea70b3, type: 2}
   LCModelMandatoryRight: {fileID: 11400000, guid: 3246432f94a926145aede2a2e36104fe,
@@ -2110,6 +2178,7 @@ Transform:
   m_Children:
   - {fileID: 2038944721}
   - {fileID: 615305931}
+  - {fileID: 1729544866}
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
