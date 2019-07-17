@@ -42,7 +42,7 @@ namespace CivilFX.TrafficV3
         public LaneChangingModel LCModel;
 
 
-        public Transform [] wheels;
+        public Transform[] wheels;
 
         public bool debug;
 
@@ -94,13 +94,14 @@ namespace CivilFX.TrafficV3
         {
             transform.position = pos;
 
-            foreach (var item in wheels) {
-                Vector3 rot = Vector3.zero;
-                rot.x = rotationValue;
-                item.localEulerAngles = rot;
-                rotationValue += 90.0f * (360.0f / 60.0f) * 0.002f * speed;
+            if (!isVirtual) {
+                foreach (var item in wheels) {
+                    Vector3 rot = Vector3.zero;
+                    rot.x = rotationValue;
+                    item.localEulerAngles = rot;
+                    rotationValue += 90.0f * (360.0f / 60.0f) * 0.002f * speed;
+                }
             }
-
         }
 
 

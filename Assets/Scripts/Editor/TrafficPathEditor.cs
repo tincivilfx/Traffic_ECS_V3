@@ -273,6 +273,7 @@ namespace CivilFX.TrafficV3
                             dis += Vector3.Distance(nodes[i], nodes[i + 1]);
                         }
                         Handles.Label(nodes[index], dis.ToString(), labelStyle);
+                        Handles.ArrowHandleCap(0, nodes[index], Quaternion.LookRotation(-Vector3.up), 5.0f, EventType.Repaint);
                     }
                 }
 

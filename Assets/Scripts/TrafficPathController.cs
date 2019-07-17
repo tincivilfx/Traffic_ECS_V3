@@ -77,10 +77,37 @@ namespace CivilFX.TrafficV3
             LCModelMandatoryLeft = _LCModelMandatoryLeft;
         }
 
-        public void AddObstacles(VehicleController[] obstacles)
+        public void AddObstacle(VehicleController obstacle)
+        {
+            obstacle.LCModel = LCModelCar; //
+            obstacle.longModel = longModelCar; //
+            vehicles.Add(obstacle);
+
+        }
+
+        public void AddObstacles(VehicleController[] obstacles, bool requireModels=false)
         {
             if (obstacles != null) {
                 vehicles.AddRange(obstacles);
+                if (requireModels) {
+                    foreach (var item in obstacles) {
+                        item.LCModel = LCModelCar;
+                        item.longModel = longModelCar;
+                    }
+                }
+                SortVehicles();
+                UpdateEnvironment();
+            }
+        }
+
+        public void RemoveObstacles(VehicleController [] obstacles)
+        {
+            if (obstacles != null) {
+                foreach (var item in obstacles) {
+                    var flag = vehicles.Remove(item);
+                }
+                SortVehicles();
+                UpdateEnvironment();
             }
         }
 

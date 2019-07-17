@@ -408,6 +408,84 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &478382727
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 478382728}
+  - component: {fileID: 478382730}
+  - component: {fileID: 478382729}
+  m_Layer: 0
+  m_Name: Sahara WB
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &478382728
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 478382727}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -32.51, y: -47.282, z: -0.57}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2069586910}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &478382729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 478382727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e9d157346b7b3a4f98fc0b6ac864126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  path: {fileID: 478382730}
+  vehicles: []
+--- !u!114 &478382730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 478382727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a371fb8d55873c478e83bac7aca0cb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unit: 1
+  widthPerLane: 5.26
+  calculatedWidth: 4.8098025
+  pathLength: 362.2565
+  lanesCount: 3
+  splineResolution: 150
+  splineColor: {r: 1, g: 0.9176218, b: 0, a: 1}
+  nodes:
+  - {x: 117.99193, y: -0.15237848, z: -178.9401}
+  - {x: 107.70512, y: -0.15238057, z: -161.78838}
+  - {x: 96.46118, y: -0.15238288, z: -142.7931}
+  - {x: 78.15829, y: -0.15238741, z: -105.216576}
+  - {x: 55.7716, y: -0.15239352, z: -57.423626}
+  - {x: 42.485237, y: -0.15239656, z: -28.867151}
+  - {x: 17.801626, y: -0.15240361, z: 19.924646}
+  - {x: -10.524017, y: -0.15240921, z: 77.74567}
+  - {x: -31.670294, y: -0.15241446, z: 122.88582}
+  - {x: -50.30142, y: -0.15241952, z: 164.05281}
+  - {x: -58.515625, y: -0.15242174, z: 182.28813}
+  cutSegments: []
 --- !u!1 &550029401
 GameObject:
   m_ObjectHideFlags: 0
@@ -440,8 +518,8 @@ RectTransform:
   m_Father: {fileID: 1663860140}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.05263158}
-  m_AnchorMax: {x: 1, y: 0.05263158}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -510,9 +588,10 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -32.51, y: -47.282, z: -0.57}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1729544866}
   m_Father: {fileID: 2069586910}
-  m_RootOrder: 1
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &615305932
 MonoBehaviour:
@@ -531,7 +610,7 @@ MonoBehaviour:
   calculatedWidth: 4.8098025
   pathLength: 362.43173
   lanesCount: 3
-  splineResolution: 30
+  splineResolution: 150
   splineColor: {r: 0.05260229, g: 1, b: 0, a: 1}
   nodes:
   - {x: -79.03281, y: -0.15242167, z: 180.74748}
@@ -589,7 +668,7 @@ Light:
   serializedVersion: 9
   m_Type: 1
   m_Color: {r: 1, g: 0.8898988, b: 0.5896226, a: 1}
-  m_Intensity: 1.52
+  m_Intensity: 2.09
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -598,10 +677,10 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
-    m_Bias: 0.05
-    m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_Strength: 0.345
+    m_Bias: 0.352
+    m_NormalBias: 0.98
+    m_NearPlane: 0.64
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -645,8 +724,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
-  m_LocalRotation: {x: 0.3531291, y: 0.600827, z: -0.33440346, w: 0.634414}
-  m_LocalPosition: {x: -816.8884, y: 1426.0214, z: -1878.9443}
+  m_LocalRotation: {x: -0.25112495, y: -0.36919224, z: 0.104309104, w: -0.88868046}
+  m_LocalPosition: {x: -56.695213, y: 43.240223, z: -39.75406}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1014,6 +1093,78 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1193618541
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1193618542}
+  - component: {fileID: 1193618543}
+  m_Layer: 0
+  m_Name: IntersectionController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1193618542
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1193618541}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2.3655224, y: -19.554337, z: -160.28348}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2069586910}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1193618543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1193618541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dfe36149bf065448bab3d0532da20c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentActiveSet: 0
+  currentType: 0
+  currentState: 1
+  currentTime: 0
+  greenTimeMain: 40
+  greenTimeLeftTurn: 15
+  redTime: 10
+  sets:
+  - intersectionInfos:
+    - path: {fileID: 1552222659}
+      u: 250.1
+      type: 0
+      obstacles: []
+    - path: {fileID: 1449061889}
+      u: 233.92
+      type: 0
+      obstacles: []
+  - intersectionInfos:
+    - path: {fileID: 478382729}
+      u: 154.47
+      type: 0
+      obstacles: []
+    - path: {fileID: 615305933}
+      u: 164.72
+      type: 0
+      obstacles: []
+  stopBar: {fileID: 418322854091818640, guid: 3a9d0bea52b43d2438bb66782c95f09b, type: 3}
+  greenMat: {fileID: 2100000, guid: 16dd7210164b0934998163562261777f, type: 2}
+  redMat: {fileID: 2100000, guid: ccbce64e20f772a43bc174824fb21b60, type: 2}
 --- !u!1 &1290150229
 GameObject:
   m_ObjectHideFlags: 0
@@ -1266,7 +1417,7 @@ MonoBehaviour:
   calculatedWidth: 4.608632
   pathLength: 523.7016
   lanesCount: 3
-  splineResolution: 30
+  splineResolution: 150
   splineColor: {r: 1, g: 0.049950436, b: 0, a: 1}
   nodes:
   - {x: 296.34695, y: -0.19095135, z: -1.8519499}
@@ -1480,6 +1631,86 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 1551288772}
+--- !u!1 &1552222657
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1552222658}
+  - component: {fileID: 1552222660}
+  - component: {fileID: 1552222659}
+  m_Layer: 0
+  m_Name: LVBlvd NB
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1552222658
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552222657}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 304.55, y: -47.282, z: -145.84}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2069586910}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1552222659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552222657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e9d157346b7b3a4f98fc0b6ac864126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  path: {fileID: 1552222660}
+  vehicles: []
+--- !u!114 &1552222660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552222657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a371fb8d55873c478e83bac7aca0cb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unit: 1
+  widthPerLane: 5.04
+  calculatedWidth: 4.608632
+  pathLength: 523.053
+  lanesCount: 3
+  splineResolution: 150
+  splineColor: {r: 0, g: 0.8105297, b: 1, a: 1}
+  nodes:
+  - {x: -267.20746, y: -0.15240167, z: -11.13975}
+  - {x: -247.22545, y: -0.15240148, z: -10.291727}
+  - {x: -185.98611, y: -0.15240057, z: -12.336399}
+  - {x: -124.32943, y: -0.15240076, z: -12.772205}
+  - {x: -60.49121, y: -0.15240097, z: -12.944336}
+  - {x: -21.303646, y: -0.15240061, z: -12.943355}
+  - {x: 17.948568, y: -0.15240026, z: -13.42855}
+  - {x: 48.908184, y: -0.15240036, z: -13.017643}
+  - {x: 94.55624, y: -0.15239997, z: -13.654026}
+  - {x: 168.74228, y: -0.1523999, z: -12.922234}
+  - {x: 216.15195, y: -0.1524, z: -13.618963}
+  - {x: 275.76624, y: -0.15239988, z: -14.028302}
+  - {x: 295.76578, y: -0.15239984, z: -14.165628}
+  cutSegments: []
 --- !u!1 &1553160537
 GameObject:
   m_ObjectHideFlags: 0
@@ -1819,7 +2050,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0.05263158}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1885,12 +2116,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1729544865}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -32.51, y: -47.282, z: -0.57}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 2069586910}
-  m_RootOrder: 2
+  m_Father: {fileID: 615305931}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1729544867
 MonoBehaviour:
@@ -2148,7 +2379,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2025712071
 Transform:
   m_ObjectHideFlags: 0
@@ -2215,37 +2446,30 @@ MonoBehaviour:
   - {fileID: 819888134194365870, guid: 8acf6d3b4e480f64085d5fabe521b751, type: 3}
   - {fileID: 6835335232393431909, guid: 852a94b3b37e1e04fb2a2c130f20fc69, type: 3}
   pathInfos:
-  - path: {fileID: 615305933}
+  - path: {fileID: 1552222659}
     obstacles: []
     vehiclesCount: 50
     allowLaneChaning: 1
     allowRespawning: 1
     allowDespawning: 1
-    rampInfos:
-    - newPath: {fileID: 1729544867}
-      targetLane: -1
-      offset: -44.665302
-      umin: 48.81654
-      umax: 138.9022
-      isMerge: 0
-      toRight: 1
-  - path: {fileID: 1729544867}
-    obstacles: []
-    vehiclesCount: 0
-    allowLaneChaning: 0
-    allowRespawning: 0
-    allowDespawning: 0
-    rampInfos:
-    - newPath: {fileID: 1449061889}
-      targetLane: 1
-      offset: 176.515
-      umin: 131
-      umax: 141
-      isMerge: 1
-      toRight: 0
+    rampInfos: []
   - path: {fileID: 1449061889}
     obstacles: []
-    vehiclesCount: 0
+    vehiclesCount: 50
+    allowLaneChaning: 1
+    allowRespawning: 1
+    allowDespawning: 1
+    rampInfos: []
+  - path: {fileID: 478382729}
+    obstacles: []
+    vehiclesCount: 50
+    allowLaneChaning: 1
+    allowRespawning: 1
+    allowDespawning: 1
+    rampInfos: []
+  - path: {fileID: 615305933}
+    obstacles: []
+    vehiclesCount: 50
     allowLaneChaning: 1
     allowRespawning: 1
     allowDespawning: 1
@@ -2284,9 +2508,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2038944721}
-  - {fileID: 615305931}
-  - {fileID: 1729544866}
+  - {fileID: 1193618542}
+  - {fileID: 1552222658}
   - {fileID: 1449061887}
+  - {fileID: 478382728}
+  - {fileID: 615305931}
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

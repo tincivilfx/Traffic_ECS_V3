@@ -257,9 +257,12 @@ MonoBehaviour:
   laneOld: 0
   speed: 30
   type: Car
+  isVirtual: 0
   id: 200
   divergeAhead: 0
   toRight: 0
+  justMerged: 0
+  fromRight: 0
   fracLaneOptical: 1
   dt_LC: 4
   dt_afterLC: 10
@@ -271,8 +274,15 @@ MonoBehaviour:
   iLeadLeft: -100
   iLagRight: -100
   iLagLeft: -100
+  originalPos: {x: 0, y: 0, z: 0}
   longModel: {fileID: 11400000, guid: df2103459561448428e2e5c52f404974, type: 2}
   LCModel: {fileID: 11400000, guid: 82068d22fbfdd594282d9a4082ea70b3, type: 2}
+  wheels:
+  - {fileID: 7899507997283959187}
+  - {fileID: 1132017712264575385}
+  - {fileID: 237174624593356240}
+  - {fileID: 668624869174045350}
+  debug: 0
 --- !u!1 &7895200277290322744
 GameObject:
   m_ObjectHideFlags: 0

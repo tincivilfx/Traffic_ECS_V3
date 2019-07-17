@@ -33,8 +33,8 @@ namespace CivilFX.TrafficV3
 
         [Range(1, 10)]
         public int lanesCount = 1;
-        public int splineResolution = 30;
-        public Color splineColor;
+        public int splineResolution = 150;
+        public Color splineColor = Color.green;
         public List<Vector3> nodes;
 
         public CutSegment [] cutSegments;

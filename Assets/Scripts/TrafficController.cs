@@ -30,7 +30,6 @@ namespace CivilFX.TrafficV3
         public RampInfo [] rampInfos;
     }
 
-
     public class TrafficController : MonoBehaviour
     {
         public GameObject[] prefabs;
@@ -79,8 +78,6 @@ namespace CivilFX.TrafficV3
                     item.path.MergeDiverge(item2.newPath, item2.offset, item2.umin, item2.umax, item2.isMerge, item2.toRight, item2.targetLane ,true);
                 }
                 item.path.UpdateFinalPositions();
-
-                pathInfos[0].path.MergeDiverge(pathInfos[0].rampInfos[0].newPath, pathInfos[0].rampInfos[0].offset, pathInfos[0].rampInfos[0].umin, pathInfos[0].rampInfos[0].umax, pathInfos[0].rampInfos[0].isMerge, pathInfos[0].rampInfos[0].toRight);
             }         
         }
     }
