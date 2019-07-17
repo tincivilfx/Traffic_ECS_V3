@@ -34,6 +34,7 @@ namespace CivilFX.TrafficV3
         [Range(1, 10)]
         public int lanesCount = 1;
         public int splineResolution = 30;
+        public Color splineColor;
         public List<Vector3> nodes;
 
         public CutSegment [] cutSegments;
@@ -67,12 +68,12 @@ namespace CivilFX.TrafficV3
             {
                 return;
             }
-
+            var color = Gizmos.color;
+            Gizmos.color = path.splineColor;
             SplineBuilder splineBuilder = path.GetSplineBuilder();
             var segmentation = 1.0f / path.splineResolution;
             var t = 0.0f;
             var lanesCount = path.lanesCount;
-            Gizmos.color = Color.green;
 
             var centerStart = splineBuilder.getPoint(0);
             var centerEnd = Vector3.zero;
@@ -145,7 +146,7 @@ namespace CivilFX.TrafficV3
                 }              
                 time += seg;
             }
-
+            Gizmos.color = color;
             /*
             //draw rough lanes
             Gizmos.color = Color.red;

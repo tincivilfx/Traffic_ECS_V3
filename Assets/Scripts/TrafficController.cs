@@ -25,6 +25,7 @@ namespace CivilFX.TrafficV3
         public int vehiclesCount;
         public bool allowLaneChaning;
         public bool allowRespawning;
+        public bool allowDespawning;
         public RampInfo [] rampInfos;
     }
 
@@ -64,7 +65,10 @@ namespace CivilFX.TrafficV3
                 }
                 
                 item.path.UpdateSpeedPositions(dt);
-                item.path.UpdateBCDown(waitingVehicles);
+
+                if (item.allowDespawning) {
+                    item.path.UpdateBCDown(waitingVehicles);
+                }
                 
                 if (item.allowRespawning) {
                     item.path.UpdateBCUp(waitingVehicles);

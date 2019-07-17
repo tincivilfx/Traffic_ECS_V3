@@ -87,6 +87,9 @@ namespace CivilFX.TrafficV3
             currentProp = so.FindProperty("splineResolution");
             EditorGUILayout.PropertyField(currentProp);
 
+            //spline color
+            currentProp = so.FindProperty("splineColor");
+            EditorGUILayout.PropertyField(currentProp);
             //nodes
             currentProp = so.FindProperty("nodes");
             GUILayout.BeginHorizontal();
