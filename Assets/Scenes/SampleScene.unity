@@ -589,6 +589,7 @@ Transform:
   m_LocalPosition: {x: -32.51, y: -47.282, z: -0.57}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1164326954}
   - {fileID: 1729544866}
   m_Father: {fileID: 2069586910}
   m_RootOrder: 5
@@ -1093,6 +1094,80 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1164326953
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1164326954}
+  - component: {fileID: 1164326956}
+  - component: {fileID: 1164326955}
+  m_Layer: 0
+  m_Name: Sahara EB-LT
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1164326954
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1164326953}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 615305931}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1164326955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1164326953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e9d157346b7b3a4f98fc0b6ac864126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  path: {fileID: 1164326956}
+  vehicles: []
+--- !u!114 &1164326956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1164326953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a371fb8d55873c478e83bac7aca0cb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unit: 1
+  widthPerLane: 5.26
+  calculatedWidth: 3.206535
+  pathLength: 160.32875
+  lanesCount: 2
+  splineResolution: 150
+  splineColor: {r: 0.05260229, g: 1, b: 0, a: 1}
+  nodes:
+  - {x: -41.56402, y: -0.15241112, z: 121.64043}
+  - {x: -32.816734, y: -0.15240967, z: 103.65474}
+  - {x: 0.89378494, y: -0.15240408, z: 34.341015}
+  - {x: 16.859316, y: -0.15240051, z: 4.9058037}
+  - {x: 34.909977, y: -0.15239738, z: -9.8338995}
+  - {x: 60.797546, y: -0.15239334, z: -11.711806}
+  - {x: 66.79537, y: -0.15239023, z: -11.25802}
+  cutSegments: []
 --- !u!1 &1193618541
 GameObject:
   m_ObjectHideFlags: 0
@@ -1140,14 +1215,18 @@ MonoBehaviour:
   currentType: 0
   currentState: 1
   currentTime: 0
-  greenTimeMain: 40
-  greenTimeLeftTurn: 15
+  greenTimeMain: 120
+  greenTimeLeftTurn: 40
   redTime: 10
   sets:
   - intersectionInfos:
     - path: {fileID: 1552222659}
       u: 250.1
       type: 0
+      obstacles: []
+    - path: {fileID: 1972243276}
+      u: 197.01
+      type: 1
       obstacles: []
     - path: {fileID: 1449061889}
       u: 233.92
@@ -1162,9 +1241,87 @@ MonoBehaviour:
       u: 164.72
       type: 0
       obstacles: []
+    - path: {fileID: 1164326955}
+      u: 94.65
+      type: 1
+      obstacles: []
   stopBar: {fileID: 418322854091818640, guid: 3a9d0bea52b43d2438bb66782c95f09b, type: 3}
   greenMat: {fileID: 2100000, guid: 16dd7210164b0934998163562261777f, type: 2}
   redMat: {fileID: 2100000, guid: ccbce64e20f772a43bc174824fb21b60, type: 2}
+--- !u!1 &1210330333
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1210330334}
+  - component: {fileID: 1210330336}
+  - component: {fileID: 1210330335}
+  m_Layer: 0
+  m_Name: LVBlvd SB-LT
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1210330334
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1210330333}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1449061887}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1210330335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1210330333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e9d157346b7b3a4f98fc0b6ac864126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  path: {fileID: 1210330336}
+  vehicles: []
+--- !u!114 &1210330336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1210330333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a371fb8d55873c478e83bac7aca0cb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unit: 1
+  widthPerLane: 5.04
+  calculatedWidth: 3.0724213
+  pathLength: 132.16049
+  lanesCount: 2
+  splineResolution: 150
+  splineColor: {r: 1, g: 0.049950436, b: 0, a: 1}
+  nodes:
+  - {x: 123.7507, y: -0.15239955, z: -4.914116}
+  - {x: 115.35874, y: -0.15239932, z: -5.622577}
+  - {x: 48.90821, y: -0.15239964, z: -4.663008}
+  - {x: 28.39915, y: -0.15239948, z: -9.546419}
+  - {x: 27.803404, y: -0.15239945, z: -25.03028}
+  - {x: 38.745632, y: -0.1524002, z: -50.602695}
+  - {x: 46.61346, y: -0.15240073, z: -68.99011}
+  cutSegments: []
 --- !u!1 &1290150229
 GameObject:
   m_ObjectHideFlags: 0
@@ -1220,7 +1377,7 @@ MonoBehaviour:
     vehiclesCount: 200
     allowLaneChaning: 1
     allowRespawning: 1
-    allowDespawning: 0
+    allowDespawning: 1
     rampInfos: []
   - path: {fileID: 51345177}
     obstacles:
@@ -1231,12 +1388,12 @@ MonoBehaviour:
     allowDespawning: 0
     rampInfos:
     - newPath: {fileID: 1532633760}
-      targetLane: -1
       offset: 34.5326
       umin: 148.2116
       umax: 243.3057
       isMerge: 1
       toRight: 1
+      requireCheck: 1
   - path: {fileID: 1796244099}
     obstacles:
     - {fileID: 268011097}
@@ -1246,12 +1403,12 @@ MonoBehaviour:
     allowDespawning: 0
     rampInfos:
     - newPath: {fileID: 1532633760}
-      targetLane: -1
       offset: 478.457
       umin: 526.588
       umax: 589.5271
       isMerge: 1
       toRight: 0
+      requireCheck: 1
   longModelCar: {fileID: 11400000, guid: df2103459561448428e2e5c52f404974, type: 2}
   LCModelCar: {fileID: 11400000, guid: 82068d22fbfdd594282d9a4082ea70b3, type: 2}
   LCModelMandatoryRight: {fileID: 11400000, guid: 3246432f94a926145aede2a2e36104fe,
@@ -1396,7 +1553,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 304.55, y: -47.282, z: -145.84}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1210330334}
   m_Father: {fileID: 2069586910}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1659,7 +1817,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 304.55, y: -47.282, z: -145.84}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1972243275}
   m_Father: {fileID: 2069586910}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1692,7 +1851,7 @@ MonoBehaviour:
   unit: 1
   widthPerLane: 5.04
   calculatedWidth: 4.608632
-  pathLength: 523.053
+  pathLength: 160.32875
   lanesCount: 3
   splineResolution: 150
   splineColor: {r: 0, g: 0.8105297, b: 1, a: 1}
@@ -2121,7 +2280,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 615305931}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1729544867
 MonoBehaviour:
@@ -2364,6 +2523,82 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1925667308}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1972243274
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1972243275}
+  - component: {fileID: 1972243277}
+  - component: {fileID: 1972243276}
+  m_Layer: 0
+  m_Name: LVBlvd NB-LT
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1972243275
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1972243274}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1552222658}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1972243276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1972243274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e9d157346b7b3a4f98fc0b6ac864126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  path: {fileID: 1972243277}
+  vehicles: []
+--- !u!114 &1972243277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1972243274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a371fb8d55873c478e83bac7aca0cb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unit: 1
+  widthPerLane: 5.04
+  calculatedWidth: 3.0724213
+  pathLength: 250.05933
+  lanesCount: 2
+  splineResolution: 150
+  splineColor: {r: 0, g: 0.8105297, b: 1, a: 1}
+  nodes:
+  - {x: -203.77113, y: -0.15240051, z: -4.371028}
+  - {x: -197.75111, y: -0.15240057, z: -4.284353}
+  - {x: -124.32943, y: -0.15240076, z: -4.832206}
+  - {x: -60.49121, y: -0.15240097, z: -5.004336}
+  - {x: -21.303646, y: -0.15240061, z: -5.0033555}
+  - {x: 12.630286, y: -0.15240026, z: -3.863474}
+  - {x: 19.724468, y: -0.15240036, z: 9.606619}
+  - {x: 10.766001, y: -0.15240045, z: 30.570276}
+  - {x: 2.906857, y: -0.15240052, z: 48.96141}
+  cutSegments: []
 --- !u!1 &2025712070
 GameObject:
   m_ObjectHideFlags: 0
@@ -2452,7 +2687,28 @@ MonoBehaviour:
     allowLaneChaning: 1
     allowRespawning: 1
     allowDespawning: 1
-    rampInfos: []
+    rampInfos:
+    - newPath: {fileID: 1972243276}
+      offset: -49.142
+      umin: 50.177
+      umax: 244
+      isMerge: 0
+      toRight: 0
+      requireCheck: 1
+  - path: {fileID: 1972243276}
+    obstacles: []
+    vehiclesCount: 0
+    allowLaneChaning: 1
+    allowRespawning: 0
+    allowDespawning: 0
+    rampInfos:
+    - newPath: {fileID: 478382729}
+      offset: -34.3963
+      umin: 234.5106
+      umax: 249
+      isMerge: 1
+      toRight: 1
+      requireCheck: 0
   - path: {fileID: 1449061889}
     obstacles: []
     vehiclesCount: 50
@@ -2473,7 +2729,49 @@ MonoBehaviour:
     allowLaneChaning: 1
     allowRespawning: 1
     allowDespawning: 1
-    rampInfos: []
+    rampInfos:
+    - newPath: {fileID: 1164326955}
+      offset: -69.376
+      umin: 72.399
+      umax: 162
+      isMerge: 1
+      toRight: 0
+      requireCheck: 1
+    - newPath: {fileID: 1729544867}
+      offset: -42.87321
+      umin: 49.24121
+      umax: 133
+      isMerge: 1
+      toRight: 1
+      requireCheck: 1
+  - path: {fileID: 1164326955}
+    obstacles: []
+    vehiclesCount: 0
+    allowLaneChaning: 1
+    allowRespawning: 0
+    allowDespawning: 0
+    rampInfos:
+    - newPath: {fileID: 1552222659}
+      offset: 147.6107
+      umin: 145.505
+      umax: 160
+      isMerge: 1
+      toRight: 1
+      requireCheck: 0
+  - path: {fileID: 1729544867}
+    obstacles: []
+    vehiclesCount: 0
+    allowLaneChaning: 0
+    allowRespawning: 0
+    allowDespawning: 0
+    rampInfos:
+    - newPath: {fileID: 1449061889}
+      offset: 176.7635
+      umin: 133.9023
+      umax: 141.9
+      isMerge: 1
+      toRight: 0
+      requireCheck: 0
   longModelCar: {fileID: 11400000, guid: df2103459561448428e2e5c52f404974, type: 2}
   LCModelCar: {fileID: 11400000, guid: 82068d22fbfdd594282d9a4082ea70b3, type: 2}
   LCModelMandatoryRight: {fileID: 11400000, guid: 3246432f94a926145aede2a2e36104fe,

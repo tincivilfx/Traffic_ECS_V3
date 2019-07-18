@@ -479,8 +479,41 @@ namespace CivilFX.TrafficV3
             }
         }
 
+
         public void MergeDiverge(TrafficPathController newPath, float offset, float uBegin, float uEnd, bool isMerge, bool toRight,
-            int targetLane = -1,
+            bool requireCheck)
+        {
+            if (requireCheck) {
+                MergeDiverge(newPath, offset, uBegin, uEnd, isMerge, toRight, true, false, false);
+            } else {
+                VehicleController changingVeh = null;
+                foreach (var item in vehicles) {
+                    if (!item.isVirtual && item.u >= uBegin && item.u <= uEnd) {
+                        item.u += offset;
+                        //lane stay the same
+                        changingVeh = item;
+                        break;
+                    }
+                }
+
+                if (changingVeh != null) {
+                    if (!toRight) {
+                        //toleft
+                        //meaning right lane merge
+                        changingVeh.lane = newPath.path.lanesCount - 1;
+                    }
+                    vehicles.Remove(changingVeh);
+                    SortVehicles();
+                    UpdateEnvironment();
+                    newPath.vehicles.Add(changingVeh);
+                    newPath.SortVehicles();
+                    newPath.UpdateEnvironment();
+                }
+
+            }
+        }
+
+        private void MergeDiverge(TrafficPathController newPath, float offset, float uBegin, float uEnd, bool isMerge, bool toRight,
             bool ignoreRoute=false, bool prioOther=false, bool prioOwn=false)
         {
             var padding = 20; // visib. extension for orig drivers to target vehs
@@ -508,9 +541,7 @@ namespace CivilFX.TrafficV3
             var uNewBegin = uBegin + offset;
             var uNewEnd = uEnd + offset;
             var originLane = (toRight) ? path.lanesCount - 1 : 0;
-            if (targetLane == -1) {
-                targetLane = (toRight) ? 0 : newPath.path.lanesCount - 1;
-            }
+            var targetLane = (toRight) ? 0 : newPath.path.lanesCount - 1;
             var originVehicles = GetTargetNeighbourhood(
             uBegin - paddingLTC, uEnd, originLane); // padding only for LT coupling!
 

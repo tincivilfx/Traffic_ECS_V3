@@ -123,6 +123,8 @@ namespace CivilFX.TrafficV3
                 }
             }
             currentTime -= Time.deltaTime;
+
+
         }
 
         private void UpdateGreenLight(int activeSet, IType type, bool debug=false)
@@ -143,6 +145,11 @@ namespace CivilFX.TrafficV3
                     item.RemoveObstacles(greenMat);
                 }
             }
+
+        }
+
+        private void UpdateRightTurn()
+        {
 
         }
 
