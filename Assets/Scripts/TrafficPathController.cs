@@ -52,9 +52,10 @@ namespace CivilFX.TrafficV3
 
             var i = 0;
             foreach (var item in vehicles) {
-                item.u = uSegment * i;
-                item.lane = Random.Range(0, path.lanesCount);
+                //item.u = uSegment * i;
+                //item.lane = Random.Range(0, path.lanesCount);
                 item.id = 200 + i;
+                item.Renew(uSegment * i, Random.Range(0, path.lanesCount), 30 , "Car");
                 ++i;
             }
             
@@ -721,29 +722,31 @@ namespace CivilFX.TrafficV3
                 var iOrig = iMerge + iTargetFirst;
                 //Debug.Log(vehicles.Count + ":" + iOrig);
                 var changingVeh = vehicles[iOrig]; //originVehicles[iMerge];
-                var vOld = (toRight) ? targetLane - 1 : targetLane + 1; // rel. to NEW road
-                
-                changingVeh.fromRight = !toRight;
-                changingVeh.justMerged = true;
-                changingVeh.u += offset;
-                changingVeh.lane = targetLane;
-                changingVeh.laneOld = vOld; // following for  drawing purposes
-                changingVeh.v = vOld;  // real lane position (graphical)
-                changingVeh.dt_afterLC = 0;             // just changed
-                changingVeh.divergeAhead = false; // reset mandatory LC behaviour
+                if (changingVeh.allowLeavingPath) {
+                    var vOld = (toRight) ? targetLane - 1 : targetLane + 1; // rel. to NEW road
+
+                    changingVeh.fromRight = !toRight;
+                    changingVeh.justMerged = true;
+                    changingVeh.u += offset;
+                    changingVeh.lane = targetLane;
+                    changingVeh.laneOld = vOld; // following for  drawing purposes
+                    changingVeh.v = vOld;  // real lane position (graphical)
+                    changingVeh.dt_afterLC = 0;             // just changed
+                    changingVeh.divergeAhead = false; // reset mandatory LC behaviour
 
 
-                //####################################################################
-                vehicles.Remove(changingVeh);// removes chg veh from orig.
-                newPath.vehicles.Add(changingVeh); // appends changingVeh at last pos;
-                                                   //####################################################################
-                //newPath.nveh=newPath.veh.length;
-                newPath.SortVehicles();       // move the mergingVeh at correct position
-                newPath.UpdateEnvironment(); // and provide updated neighbors
+                    //####################################################################
+                    vehicles.Remove(changingVeh);// removes chg veh from orig.
+                    newPath.vehicles.Add(changingVeh); // appends changingVeh at last pos;
+                                                       //####################################################################
+                                                       //newPath.nveh=newPath.veh.length;
+                    newPath.SortVehicles();       // move the mergingVeh at correct position
+                    newPath.UpdateEnvironment(); // and provide updated neighbors
 
-                this.SortVehicles();
-                this.UpdateEnvironment();
-                Debug.Log("Scuees merging");
+                    this.SortVehicles();
+                    this.UpdateEnvironment();
+                    Debug.Log("Scuees merging");
+                }
             }// end do the actual merging
         }
 

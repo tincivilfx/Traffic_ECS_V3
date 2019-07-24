@@ -21,6 +21,8 @@ namespace CivilFX.TrafficV3
         public bool toRight = false;
         public bool justMerged = false;
         public bool fromRight = false;
+        public bool allowLeavingPath = false;
+
 
         public float fracLaneOptical = 1;
 
@@ -88,6 +90,8 @@ namespace CivilFX.TrafficV3
             iLeadLeft = -100;
             iLagRight = -100;
             iLagLeft = -100;
+
+            allowLeavingPath = UnityEngine.Random.Range(0, 100) < 20; //20% to allow leaving range
         }
 
         public void SetPosition(Vector3 pos)
