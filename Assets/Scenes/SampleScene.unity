@@ -596,7 +596,7 @@ MonoBehaviour:
   unit: 1
   widthPerLane: 5.26
   calculatedWidth: 1.6032676
-  pathLength: 166.65497
+  pathLength: 362.2565
   lanesCount: 1
   splineResolution: 150
   splineColor: {r: 1, g: 0.9176218, b: 0, a: 1}
@@ -732,7 +732,7 @@ MonoBehaviour:
   unit: 1
   widthPerLane: 5.26
   calculatedWidth: 4.8098025
-  pathLength: 362.43173
+  pathLength: 362.2565
   lanesCount: 3
   splineResolution: 150
   splineColor: {r: 0.05260229, g: 1, b: 0, a: 1}
@@ -1278,7 +1278,7 @@ MonoBehaviour:
   unit: 1
   widthPerLane: 5.26
   calculatedWidth: 3.206535
-  pathLength: 160.32875
+  pathLength: 362.2565
   lanesCount: 2
   splineResolution: 150
   splineColor: {r: 0.05260229, g: 1, b: 0, a: 1}
@@ -2443,7 +2443,7 @@ MonoBehaviour:
   unit: 1
   widthPerLane: 4.66
   calculatedWidth: 1.4203851
-  pathLength: 141.95241
+  pathLength: 362.2565
   lanesCount: 1
   splineResolution: 150
   splineColor: {r: 0.05260229, g: 1, b: 0, a: 1}
