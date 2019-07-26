@@ -783,7 +783,7 @@ namespace CivilFX.TrafficV3
                 var left = -right;
                 var seg = (2f * item.lane + 1f) / (2f * path.lanesCount); //lerp value based on lane number               
                 var pos = Vector3.Lerp(centerStart + left, centerStart + right, seg); //actualy position based on lane number
-                var lookAt = Vector3.Lerp(centerEnd + left, centerEnd + right, seg) + (dir * 10f);
+                var lookAt = pos + (centerEnd - centerStart);
                 var duringLC = item.dt_afterLC < item.dt_LC;
 
                 if (duringLC) {

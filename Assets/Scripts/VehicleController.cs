@@ -109,9 +109,13 @@ namespace CivilFX.TrafficV3
         }
 
 
-        public void SetLookAt(Vector3 pos)
+        public void SetLookAt(Vector3 targetPos)
         {
-            transform.LookAt(pos);
+            var targetDir = targetPos - transform.position;
+            var step = speed * Time.deltaTime;
+            var newDir = Vector3.RotateTowards(transform.forward, targetDir, step, 0f);
+            transform.rotation = Quaternion.LookRotation(newDir);
+            //transform.LookAt(targetPos);
         }
     }
 }
