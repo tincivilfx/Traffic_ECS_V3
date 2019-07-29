@@ -116,7 +116,7 @@ namespace CivilFX.TrafficV3
         {
             float t = u / pathLength;
             t = Mathf.Clamp01(t);
-            return pathSpline.getPointOnPath(t);
+            return pathSpline.GetPointOnPath(t);
         }
 
         public void UpdateVehiclesModels(LaneChangingModel LCModel)

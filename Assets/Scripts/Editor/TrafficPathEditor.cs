@@ -264,7 +264,7 @@ namespace CivilFX.TrafficV3
                         var segmentation = 1.0f / 1000f;
                         var t = segmentation;
                         while (t < 1.0f) {
-                            nodes.Add(splineBuilder.getPoint(t));
+                            nodes.Add(splineBuilder.GetPoint(t));
                             t += segmentation;
                         }
                         var index = LocateNearestNode(nodes, e.mousePosition);

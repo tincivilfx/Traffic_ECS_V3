@@ -75,7 +75,7 @@ namespace CivilFX.TrafficV3
             var t = 0.0f;
             var lanesCount = path.lanesCount;
 
-            var centerStart = splineBuilder.getPoint(0);
+            var centerStart = splineBuilder.GetPoint(0);
             var centerEnd = Vector3.zero;
             var dir = Vector3.zero;
             var left = dir;
@@ -84,7 +84,7 @@ namespace CivilFX.TrafficV3
 
             while (t <= 1.0f)
             {
-                centerEnd = splineBuilder.getPoint(t);
+                centerEnd = splineBuilder.GetPoint(t);
 
                 dir = math.normalize((float3)(centerEnd - centerStart));
                 left = Vector3.Cross(Vector3.up, dir) * path.calculatedWidth;
@@ -118,8 +118,8 @@ namespace CivilFX.TrafficV3
             }
 
             //draw starting arrows
-            centerStart = splineBuilder.getPoint(0.01f);
-            centerEnd = splineBuilder.getPoint(0.015f);
+            centerStart = splineBuilder.GetPoint(0.01f);
+            centerEnd = splineBuilder.GetPoint(0.015f);
             dir = math.normalize((float3)(centerEnd - centerStart));
             left = Vector3.Cross(Vector3.up, dir) * path.calculatedWidth;
             right = -left;

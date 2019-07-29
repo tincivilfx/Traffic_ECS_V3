@@ -91,9 +91,9 @@ namespace CivilFX.TrafficV3
         private Vector3 GetPositionFromLongitute(float u)
         {
             if (u < pathLength) {
-                return pathSpline.getPointOnPath(u / pathLength);
+                return pathSpline.GetPointOnPath(u / pathLength);
             } else {
-                return pathSpline.getPointOnPath(1f);
+                return pathSpline.GetPointOnPath(1f);
             }
         }
 
